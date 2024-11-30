@@ -1,11 +1,30 @@
 
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
+import RootLayout from './layout/Layout'
+import Analytics from './pages/analiytics/Analytics'
+import Employees from './pages/employment/Employees'
+import Products from './pages/products/Products'
+import Shops from './pages/shop/Shops'
+import Login from './pages/auth/Login'
+import Error404 from './pages/error404/Error404'
 
 function App() {
 
   return (
     <>
-      <div className='text-red-300'>sadada</div>
+    <Routes>
+        <Route path='login' element={<Login/>}/>
+        <Route path="/" element={<RootLayout />}>
+          <Route index element={<Analytics />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/shops" element={<Shops />} />
+          <Route path="/employees" element={<Employees />} />
+          <Route path='/*' element={<Error404/>}/>
+        </Route>
+        
+      </Routes>
+   
     </>
   )
 }
