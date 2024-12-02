@@ -7,11 +7,11 @@ const Error404 = () => {
   
   return (
     <Result
-    status="404"
-    title="404"
-    subTitle="Sorry, the page you visited does not exist."
-    extra={<Button onClick={() => navigate("/")} type="primary">Back Home</Button>}
-  />
+      status="404"
+      title="404"
+      subTitle="Kechirasiz, siz tashrif buyurgan sahifa mavjud emas."
+      extra={<Button onClick={() => navigate("/")} type="primary">Bosh sahifaga qaytish</Button>}
+    />
   )
 }
 

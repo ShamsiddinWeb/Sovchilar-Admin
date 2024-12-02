@@ -1,9 +1,13 @@
-import React from 'react'
+
+import React, { useState } from "react";
 
 const Analytics = () => {
+  
   return (
-    <div>Analytics</div>
-  )
-}
+    <div>
+      Statistika
+    </div>
+  );
+};
 
-export default Analytics
+export default Analytics;

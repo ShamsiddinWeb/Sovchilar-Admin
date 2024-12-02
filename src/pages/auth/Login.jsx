@@ -7,9 +7,8 @@ const Login = () => {
   const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
   const onSubmit = (data) => {
-    // API chaqiruvi yoki boshqa mantiq
     console.log(data);
-    reset(); // Formani tozalash
+    reset(); 
   };
 
   return (
@@ -57,7 +56,7 @@ const Login = () => {
             htmlType="submit"
             className="w-full"
           >
-            Login
+            Kirish
           </Button>
         </form>
       </div>

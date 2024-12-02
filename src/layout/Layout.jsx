@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
@@ -8,11 +9,12 @@ import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { BsShopWindow } from "react-icons/bs";
 import { AiOutlineProduct } from "react-icons/ai";
 import { Button, Layout, Menu, theme } from 'antd';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import logo from "../assets/logo.png"
 const { Header, Sider, Content } = Layout;
 const RootLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate()
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -34,11 +36,15 @@ const RootLayout = () => {
         return ['1'];
     }
   };
+
+  const handleLogout = () => {
+    navigate("/login");
+  };
   return (
     <Layout className='h-screen'>
       <Sider theme='light' trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
-        <Link to='/analytics' className='flex justify-center py-5'><img className='w-3/5' src={logo} alt="aqvo logo" /></Link>
+        <Link to='/' className='flex justify-center py-5 pb-10'><img className='w-3/5' src={logo} alt="aqvo logo" /></Link>
         <Menu
           theme="light"
           mode="inline"
@@ -49,22 +55,22 @@ const RootLayout = () => {
             {
                 key: '1',
                 icon: <TbDeviceDesktopAnalytics style={{fontSize: "20px"}}/>,
-                label: <Link to="/">Analytics</Link>,  
+                label: <Link to="/">Statistika</Link>,  
               },
               {
                 key: '2',
                 icon: <AiOutlineProduct style={{fontSize: "20px"}}/>,
-                label: <Link to="/products">Products</Link>, 
+                label: <Link to="/products">Mahsulotlar</Link>, 
               },
               {
                 key: '3',
                 icon: <BsShopWindow style={{fontSize: "20px"}}/>,
-                label: <Link to="/shops">Shops</Link>, 
+                label: <Link to="/shops">Magazinlar</Link>, 
               },
               {
                 key: '4',
                 icon: <HiOutlineUsers style={{fontSize: "20px"}}/>,
-                label: <Link to="/employees">Employees</Link>,  
+                label: <Link to="/employees">Hodimlar</Link>,  
               },
         
           ]}
@@ -75,6 +81,10 @@ const RootLayout = () => {
           style={{
             padding: 0,
             background: colorBgContainer,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: "center",
+            paddingRight: "20px"
           }}
         >
           <Button
@@ -87,6 +97,12 @@ const RootLayout = () => {
               height: 64,
             }}
           />
+          <Button
+          icon={<LogoutOutlined />}
+          onClick={handleLogout}
+        >
+          Chiqish
+        </Button>
         </Header>
         <Content
           style={{
