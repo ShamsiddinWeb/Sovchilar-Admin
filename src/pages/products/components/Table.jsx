@@ -16,7 +16,6 @@ const MyTable = () => {
     setSelectedRecord(record); // Tanlangan yozuvni saqlash
     setIsModalVisible(true); // Modal oynasini ochish
   };
-
   const handleCancel = () => {
     setIsModalVisible(false); // Modal oynasini yopish
   };
@@ -27,7 +26,6 @@ const MyTable = () => {
   };
   const handleDelete = (id) => {
     console.log(id);
-    
   };
   const columns = [
     {
@@ -144,7 +142,13 @@ const MyTable = () => {
 
   return (
     <div style={{ margin: "20px", overflow: "auto" }}>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: 5 }} />
+      <Table columns={columns} dataSource={data} pagination={{ pageSize: 5 }} onRow={(record) => ({
+          onClick: (event) => {
+            if (!event.target.closest("button")) {
+              console.log(record); 
+            }
+          },
+        })}/>
       <ModalComponent
         title="Mahsulotni tahrirlash"
         isOpen={isModalVisible}
