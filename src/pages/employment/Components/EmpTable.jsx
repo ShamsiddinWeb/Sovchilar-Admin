@@ -97,6 +97,7 @@ const EmpTable = ({ dataSource }) => {
     return (
       <div style={{ margin: "20px", overflow: "auto" }}>
         <Table
+        bordered
           columns={columns}
           dataSource={dataSource} 
           pagination={{ pageSize: 5 }}
