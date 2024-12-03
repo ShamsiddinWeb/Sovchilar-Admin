@@ -5,6 +5,7 @@ import {
   EditOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const ShoppingTable = () => {
   const columns = [
@@ -17,7 +18,7 @@ const ShoppingTable = () => {
       title: "Nomi",
       dataIndex: "name",
       key: "name",
-      render: (text) => <strong>{text}</strong>,
+      render: (_, record) => <Link to={`/shops/${record?.id}`} className="text-blue-500 underline">{record?.name}</Link>,
     },
     {
       title: "Manzili",
