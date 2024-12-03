@@ -11,6 +11,7 @@ import { AiOutlineProduct } from "react-icons/ai";
 import { Button, Layout, Menu, theme } from 'antd';
 import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import logo from "../assets/logo.png"
+import { FaBoxOpen } from 'react-icons/fa';
 const { Header, Sider, Content } = Layout;
 const RootLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -27,7 +28,9 @@ const RootLayout = () => {
     switch (location?.pathname) {
       case '/analytics':
         return ['1'];
-      case '/products':
+      case '/categories':
+        return ['2'];
+        case `/categories/${id}`:
         return ['2'];
       case '/shops':
         return ['3'];
@@ -35,6 +38,8 @@ const RootLayout = () => {
         return ['3'];
       case '/employees':
         return ['4'];
+        case '/ready-product':
+        return ['5'];
       default:
         return ['1'];
     }
@@ -62,8 +67,8 @@ const RootLayout = () => {
               },
               {
                 key: '2',
-                icon: <AiOutlineProduct style={{fontSize: "20px"}}/>,
-                label: <Link to="/products">Mahsulotlar</Link>, 
+                icon: <FaBoxOpen style={{fontSize: "20px"}}/>,
+                label: <Link to="/categories">Kategoriyalar</Link>, 
               },
               {
                 key: '3',
@@ -74,6 +79,11 @@ const RootLayout = () => {
                 key: '4',
                 icon: <HiOutlineUsers style={{fontSize: "20px"}}/>,
                 label: <Link to="/employees">Hodimlar</Link>,  
+              },
+              {
+                key: '5',
+                icon: <AiOutlineProduct style={{fontSize: "20px"}}/>,
+                label: <Link to="/ready-product">Tayyor mahsulotlar</Link>,  
               },
         
           ]}
