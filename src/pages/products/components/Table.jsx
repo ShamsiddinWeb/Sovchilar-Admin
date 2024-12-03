@@ -17,7 +17,6 @@ const MyTable = ({showModal, setEditCategoryData}) => {
     showModal("edit")
   };
 
-  
 
  
   const handleDelete = (id) => {
@@ -120,6 +119,7 @@ const MyTable = ({showModal, setEditCategoryData}) => {
 
   return (
     <div style={{ margin: "20px", overflow: "auto" }}>
+
       <Table
         bordered
         columns={columns}
