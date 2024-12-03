@@ -1,63 +1,48 @@
-import React, { useState } from "react";
+
 import { Table, Button, Popconfirm } from "antd";
-import "antd/dist/reset.css"; // Ant Design CSS qo'shilganiga ishonch hosil qiling
+import "antd/dist/reset.css"; 
 import {
   DeleteOutlined,
   EditOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
-import ModalComponent from "../../../components/Modal";
+import { useNavigate } from "react-router-dom";
 
-const MyTable = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false); // Modal oynasining holatini boshqarish
-  const [selectedRecord, setSelectedRecord] = useState(null); // Tanlangan yozuvni saqlash
+const MyTable = ({showModal, setEditCategoryData}) => {
+
+  const navigate = useNavigate()
 
   const handleEdit = (record) => {
-    setSelectedRecord(record); // Tanlangan yozuvni saqlash
-    setIsModalVisible(true); // Modal oynasini ochish
-  };
-  const handleCancel = () => {
-    setIsModalVisible(false); // Modal oynasini yopish
+    setEditCategoryData(record)
+    showModal("edit")
   };
 
-  const handleSave = () => {
-    // Bu yerda yozuvni saqlash jarayoni bo'lishi mumkin
-    setIsModalVisible(false); // Modalni yopish
-  };
+  
+
+ 
   const handleDelete = (id) => {
     console.log(id);
   };
   const columns = [
     {
       title: "ID",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "id"
     },
     {
-      title: "Ism",
-      dataIndex: "name",
-      key: "name",
+      title: "Nomi",
+      dataIndex: "category",
       render: (text) => <strong>{text}</strong>,
     },
     {
-      title: "Yosh",
-      dataIndex: "age",
-      key: "age",
-      render: (age) =>
-        age > 24 ? (
-          <span style={{ color: "green" }}>{age}</span>
-        ) : (
-          <span style={{ color: "red" }}>{age}</span>
-        ),
+      title: "Soni",
+      dataIndex: "count"
     },
     {
-      title: "Manzil",
-      dataIndex: "address",
-      key: "address",
+      title: "O'lchov turi",
+      dataIndex: "unit"
     },
     {
       title: "Amallar",
-      key: "actions",
       render: (_, record) => (
         <div>
           <Button
@@ -90,76 +75,66 @@ const MyTable = () => {
 
   const data = [
     {
-      key: "1",
       id: 1,
-      name: "Otabek",
-      age: 24,
-      address: "Toshkent, O'zbekiston",
+      category: "Gusht",
+      count: 24,
+      unit: 'kg',
     },
     {
-      key: "2",
       id: 2,
-      name: "Lena",
-      age: 23,
-      address: "Andijon, O'zbekiston",
+      category: "Butilka",
+      count: 23,
+      unit: 'dona',
     },
     {
-      key: "3",
       id: 3,
-      name: "Akmal",
-      age: 25,
-      address: "Samarqand, O'zbekiston",
+      category: "Yog'",
+      count: 25,
+      unit: "litr"
     },
     {
-      key: "4",
       id: 4,
-      name: "Akmal",
-      age: 25,
-      address: "Samarqand, O'zbekiston",
+      category: "Priprava",
+      count: 25,
+      unit: 'Pachka'
     },
     {
-      key: "5",
       id: 5,
-      name: "Akmal",
-      age: 25,
-      address: "Samarqand, O'zbekiston",
+      category: "Karopka",
+      count: 25,
+      unit: "dona"
     },
     {
-      key: "6",
       id: 6,
-      name: "Akmal",
-      age: 25,
-      address: "Samarqand, O'zbekiston",
+      category: "Etketka",
+      count: 25,
+      unit: "dona"
     },
     {
-      key: "7",
       id: 7,
-      name: "Akmal",
-      age: 25,
-      address: "Samarqand, O'zbekiston",
+      category: "Krishka",
+      count: 25,
+      unit: "dona"
     },
   ];
 
   return (
     <div style={{ margin: "20px", overflow: "auto" }}>
-      <Table columns={columns} dataSource={data} pagination={{ pageSize: 5 }} onRow={(record) => ({
+      <Table
+        bordered
+        columns={columns}
+        dataSource={data}
+        pagination={{ pageSize: 5 }}
+        onRow={(record) => ({
+          style: { cursor: 'pointer' },
           onClick: (event) => {
             if (!event.target.closest("button")) {
-              console.log(record); 
+              navigate(`/categories/${record?.id}`)
             }
           },
-        })}/>
-      <ModalComponent
-        title="Mahsulotni tahrirlash"
-        isOpen={isModalVisible}
-        onOk={handleSave}
-        onCancel={handleCancel}
-      >
-        <span className="border-r p-1">{selectedRecord?.id}</span>
-        <span className="border-r p-1">{selectedRecord?.name}</span>
-        <span className="border-r p-1">{selectedRecord?.age}</span>
-        <span className="border-r p-1">{selectedRecord?.address}</span>
-      </ModalComponent>
+        })}
+        rowKey={(record) => record.id}
+      />
     </div>
   );
 };
