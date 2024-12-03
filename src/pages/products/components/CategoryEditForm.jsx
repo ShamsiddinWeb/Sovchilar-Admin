@@ -4,6 +4,7 @@ import { Button, Select } from "antd";
 import { useForm, Controller } from "react-hook-form";
 import InputField from "../../../components/InputField";
 import { unitOptions } from "../constants/data";
+import SelectField from "../../../components/SelectField";
 const { Option } = Select;
 
 const CategoryEditForm = ({ onModalClose, editCategoryData }) => {
@@ -44,31 +45,17 @@ const CategoryEditForm = ({ onModalClose, editCategoryData }) => {
 
       {/* Miqdor turi maydoni */}
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-1">Miqdor Turi</label>
-        <Controller
-          control={control}
-          name="unit"
-          rules={{
-            required: "Miqdor turi maydoni talab qilinadi",
-          }}
-          render={({ field }) => (
-            <Select
-              {...field}
-              className="w-full"
-              placeholder="Miqdor turini tanlang"
-              allowClear
-            >
-              {unitOptions?.map((option, i) => (
-                <Option key={i} value={option?.value}>
-                  {option?.label}
-                </Option>
-              ))}
-            </Select>
-          )}
-        />
-        {errors?.unit && (
-          <p className="text-red-500 text-sm mt-1">{errors?.unit?.message}</p>
-        )}
+      <SelectField
+        control={control}
+        name="unit"
+        label="Miqdor Turi"
+        placeholder="Miqdor turini tanlang"
+        options={unitOptions}
+        rules={{
+          required: "Miqdor turi maydoni talab qilinadi",
+        }}
+        error={errors?.unit}
+      />
       </div>
 
       <Button
