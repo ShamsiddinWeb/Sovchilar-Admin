@@ -43,6 +43,17 @@ const EmpTable = ({ dataSource }) => {
         render: (text) => <strong>{text}</strong>,
       },
       {
+        title: "Familyasi",
+        dataIndex: "surname",
+        key: "surname",
+        render: (text) => <strong>{text}</strong>,
+      },
+      {
+        title: "Telefon",
+        dataIndex: "phone",
+        key: "phone"
+      },
+      {
         title: "Oylik daromadi",
         dataIndex: "salary",
         key: "salary",
@@ -53,6 +64,12 @@ const EmpTable = ({ dataSource }) => {
         dataIndex: "davomat",
         key: "davomat",
         render: (davomat) => <strong>{davomat}</strong>,
+      },
+      {
+        title: "Boshlangan sana",
+        dataIndex: "startDate",
+        key: "startDate",
+        render: (startDate) => <span>{startDate.toLocaleDateString()}</span>,
       },
       {
         title: "Amallar",
