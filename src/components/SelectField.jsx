@@ -17,7 +17,7 @@ const SelectField = ({ control, name, label, placeholder, options, rules, error 
             className="w-full"
             placeholder={placeholder}
             allowClear
-            
+            status={error && "error"}
           >
             {options.map((option, index) => (
               <Option key={index} value={option.value}>
