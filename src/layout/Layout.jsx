@@ -9,7 +9,7 @@ import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { BsShopWindow } from "react-icons/bs";
 import { AiOutlineProduct } from "react-icons/ai";
 import { Button, Layout, Menu, theme } from 'antd';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import logo from "../assets/logo.png"
 const { Header, Sider, Content } = Layout;
 const RootLayout = () => {
@@ -20,6 +20,7 @@ const RootLayout = () => {
   } = theme.useToken();
 
   const location = useLocation(); // Location hook
+  const {id} = useParams()
 
   // Menu item selection based on current URL path
   const getSelectedKeys = () => {
@@ -29,6 +30,8 @@ const RootLayout = () => {
       case '/products':
         return ['2'];
       case '/shops':
+        return ['3'];
+      case `/shops/${id}`:
         return ['3'];
       case '/employees':
         return ['4'];
