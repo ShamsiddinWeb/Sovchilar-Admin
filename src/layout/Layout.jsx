@@ -13,7 +13,6 @@ import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-
 import logo from "../assets/logo.png"
 import { FaBoxOpen } from 'react-icons/fa';
 import { useStore } from '../store/store';
-import { jwtDecode } from "jwt-decode";
 const { Header, Sider, Content } = Layout;
 
 const RootLayout = () => {
@@ -27,9 +26,7 @@ const RootLayout = () => {
   const location = useLocation(); // Location hook
   const { id } = useParams();
 
-  const decoded = jwtDecode(accessToken);
 
-  console.log(decoded);
   
 
   // Menu item selection based on current URL path
