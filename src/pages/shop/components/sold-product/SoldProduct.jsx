@@ -2,26 +2,37 @@ import { Table } from "antd";
 import ModalComponent from "../../../../components/Modal";
 
 const SoldProduct = () => {
-  const columns = [{
-        title: "Soni",
-        dataIndex: "count",
-        key: "count",
-      },
-      {
-        title: "Narxi (so'm)",
-        dataIndex: "price",
-        key: "price",
-      },
-      {
-        title: "Jami (so'm)",
-        key: "totalPrice",
-        render: (_, record) => record?.count * record?.price
-      },
-      {
-        title: "Topshirilgan vaqti",
-        dataIndex: "date",
-        key: "date",
-      },
+  const columns = [
+    {
+      title: "№",
+      key: "index",
+      render: (_, __, ind) => ind + 1,
+    },
+    {
+      title: "Mahsulot nomi",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Soni",
+      dataIndex: "count",
+      key: "count",
+    },
+    {
+      title: "Narxi (so'm)",
+      dataIndex: "price",
+      key: "price",
+    },
+    {
+      title: "Jami (so'm)",
+      key: "totalPrice",
+      render: (_, record) => record?.count * record?.price,
+    },
+    {
+      title: "Topshirilgan vaqti",
+      dataIndex: "date",
+      key: "date",
+    },
   ];
 
   return (
@@ -31,7 +42,7 @@ const SoldProduct = () => {
         columns={columns}
         bordered
         dataSource={data}
-        pagination={{ pageSize: 5 }}
+        pagination={{ pageSize: 10 }}
         onRow={(record) => ({
           onClick: (event) => {
             if (!event.target.closest("button")) {
@@ -59,8 +70,39 @@ export default SoldProduct;
 
 const data = [
   {
+    name: "Jiz",
     count: 5,
     price: "5000",
-    date: "20-12-2024",
+    date: "20-12-2024 09:10",
+  },
+  {
+    name: "Qozon kabob",
+    count: 5,
+    price: "5000",
+    date: "20-12-2024 09:10",
+  },
+  {
+    name: "Jiz",
+    count: 5,
+    price: "5000",
+    date: "20-12-2024 10:10",
+  },
+  {
+    name: "Til",
+    count: 5,
+    price: "5000",
+    date: "20-12-2024 21:21",
+  },
+  {
+    name: "Tushonka",
+    count: 5,
+    price: "5000",
+    date: "20-12-2024 21:40",
+  },
+  {
+    name: "Til",
+    count: 5,
+    price: "5000",
+    date: "20-12-2024 21:40",
   },
 ];
