@@ -15,6 +15,7 @@ import { FaBoxOpen } from 'react-icons/fa';
 import { useStore } from '../store/store';
 import { jwtDecode } from "jwt-decode";
 const { Header, Sider, Content } = Layout;
+
 const RootLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {clearUser, accessToken} = useStore()
@@ -24,7 +25,7 @@ const RootLayout = () => {
   } = theme.useToken();
 
   const location = useLocation(); // Location hook
-  const {id} = useParams()
+  const { id } = useParams();
 
   const decoded = jwtDecode(accessToken);
 
@@ -57,17 +58,19 @@ const RootLayout = () => {
     navigate("/login");
     clearUser()
   };
+
   return (
     <Layout className='h-screen'>
       <Sider theme='light' trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
-        <Link to='/' className='flex justify-center py-5 pb-10'><img className='w-3/5' src={logo} alt="aqvo logo" /></Link>
+        <Link to='/' className='flex justify-center py-5 pb-10'>
+          <img className='w-3/5' src={logo} alt="aqvo logo" />
+        </Link>
         <Menu
           theme="light"
           mode="inline"
           selectedKeys={getSelectedKeys()}
           className='text-[16px]'
-          
           items={[
             {
                 key: '1',
@@ -94,7 +97,6 @@ const RootLayout = () => {
                 icon: <AiOutlineProduct style={{fontSize: "20px"}}/>,
                 label: <Link to="/ready-product">Tayyor mahsulotlar</Link>,  
               },
-        
           ]}
         />
       </Sider>
@@ -120,25 +122,28 @@ const RootLayout = () => {
             }}
           />
           <Button
-          icon={<LogoutOutlined />}
-          onClick={handleLogout}
-        >
-          Chiqish
-        </Button>
+            icon={<LogoutOutlined />}
+            onClick={handleLogout}
+          >
+            Chiqish
+          </Button>
         </Header>
         <Content
           style={{
             margin: '24px 16px',
             padding: 24,
             minHeight: 280,
+            maxHeight: 'calc(100vh - 64px)', // Headerni chiqarib tashlash
+            overflow: 'auto', // Scroll uchun
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
         >
-          <Outlet/>
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
   );
 };
+
 export default RootLayout;
