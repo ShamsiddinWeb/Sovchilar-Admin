@@ -1,11 +1,13 @@
 import Header from "./sold-product/Header";
-import SoldProduct from "./sold-product/SoldProduct";
+import PaymeTable from "./sold-product/PaymeTable";
+import SoldProduct from "./sold-product/SingleShopingTable";
 
 const SingleShop = () => {
   return (
     <>
       <Header data={data}/>
       <SoldProduct />
+      <PaymeTable/>
     </>
   );
 };
