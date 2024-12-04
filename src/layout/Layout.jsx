@@ -12,7 +12,6 @@ import { Button, Layout, Menu, theme } from 'antd';
 import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import logo from "../assets/logo.png"
 import { FaBoxOpen } from 'react-icons/fa';
-import logo from "../assets/logo.png";
 
 const { Header, Sider, Content } = Layout;
 
@@ -90,26 +89,6 @@ const RootLayout = () => {
                 icon: <AiOutlineProduct style={{fontSize: "20px"}}/>,
                 label: <Link to="/ready-product">Tayyor mahsulotlar</Link>,  
               },
-        
-              key: '1',
-              icon: <TbDeviceDesktopAnalytics style={{ fontSize: "20px" }} />,
-              label: <Link to="/">Statistika</Link>,
-            },
-            {
-              key: '2',
-              icon: <AiOutlineProduct style={{ fontSize: "20px" }} />,
-              label: <Link to="/products">Mahsulotlar</Link>,
-            },
-            {
-              key: '3',
-              icon: <BsShopWindow style={{ fontSize: "20px" }} />,
-              label: <Link to="/shops">Magazinlar</Link>,
-            },
-            {
-              key: '4',
-              icon: <HiOutlineUsers style={{ fontSize: "20px" }} />,
-              label: <Link to="/employees">Hodimlar</Link>,
-            },
           ]}
         />
       </Sider>
