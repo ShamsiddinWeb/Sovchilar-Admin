@@ -2,13 +2,38 @@ import React from "react";
 import { Button } from "antd";
 import { useForm } from "react-hook-form";
 import InputField from "../../components/InputField";
+import api from "../../../axios";
+import { useStore } from "../../store/store";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { control, handleSubmit, formState: { errors }, reset } = useForm();
+  const {setUser} = useStore()
+  const navigate = useNavigate()
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset(); 
+  const onSubmit = async (data) => {
+    
+    const newData = {
+      phoneNumber: "+998" + data?.login,
+      password: data?.password,
+    };
+   
+    try {
+      const response = await api.post("api/auth/sign-in", newData);
+      const refreshToken = response?.data?.data?.tokens?.refresh_token;
+      const accessToken = response?.data?.data?.tokens?.access_token;
+      const userData = response?.data?.data?.data
+
+      setUser(userData, accessToken, refreshToken);
+      navigate('/')
+      
+      toast.success("Tizimga muofaqiyatli kirdingiz");
+      // reset();
+    } catch (error) {
+      
+      toast.error(error?.response?.data?.message)
+    }
   };
 
   return (
