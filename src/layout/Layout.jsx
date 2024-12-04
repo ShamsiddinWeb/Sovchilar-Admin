@@ -26,7 +26,7 @@ const RootLayout = () => {
   const location = useLocation(); // Location hook
   const { id } = useParams();
 
-
+ 
   
 
   // Menu item selection based on current URL path
