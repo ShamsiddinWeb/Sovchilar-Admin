@@ -12,9 +12,12 @@ import { Button, Layout, Menu, theme } from 'antd';
 import { Link, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import logo from "../assets/logo.png"
 import { FaBoxOpen } from 'react-icons/fa';
+import { useStore } from '../store/store';
+import { jwtDecode } from "jwt-decode";
 const { Header, Sider, Content } = Layout;
 const RootLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const {clearUser, accessToken} = useStore()
   const navigate = useNavigate()
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -22,6 +25,11 @@ const RootLayout = () => {
 
   const location = useLocation(); // Location hook
   const {id} = useParams()
+
+  const decoded = jwtDecode(accessToken);
+
+  console.log(decoded);
+  
 
   // Menu item selection based on current URL path
   const getSelectedKeys = () => {
@@ -47,6 +55,7 @@ const RootLayout = () => {
 
   const handleLogout = () => {
     navigate("/login");
+    clearUser()
   };
   return (
     <Layout className='h-screen'>

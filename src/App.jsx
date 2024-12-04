@@ -10,10 +10,13 @@ import Error404 from "./pages/error404/Error404";
 import SingleShop from "./pages/shop/components/SingleShop";
 import ReadyProduct from "./pages/readyProduct/ReadyProduct";
 import SingleCategory from "./pages/products/components/SingleCategory";
+import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <>
+    <ToastContainer />
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="/" element={<RootLayout />}>
