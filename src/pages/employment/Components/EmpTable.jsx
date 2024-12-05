@@ -7,6 +7,7 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import ModalComponent from "../../../components/Modal";
+import EmployeeForm from "../Components/Form/EmployeeForm"; // Assuming EmployeeForm is located in the same directory
 
 const EmpTable = ({ dataSource }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -14,23 +15,23 @@ const EmpTable = ({ dataSource }) => {
   const [selectedRecord, setSelectedRecord] = useState(null);
 
   const handleEdit = (record) => {
-    setSelectedRecord(record); // Set the record for the modal
-    setIsModalVisible(true); // Open only the Edit Modal
+    setSelectedRecord(record);
+    setIsModalVisible(true);
   };
 
   const handleRowClick = (record) => {
-    setSelectedRecord(record); // Set the record for the modal
-    setIsRowClickModalVisible(true); // Open only the Row Click Modal
+    setSelectedRecord(record);
+    setIsRowClickModalVisible(true);
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
-    setIsRowClickModalVisible(false); // Close both modals
+    setIsRowClickModalVisible(false);
   };
 
-  const handleSave = () => {
-    // Placeholder for saving logic
-    setIsModalVisible(false); // Close the Edit Modal
+  const handleSave = (updatedData) => {
+    console.log("Updated Employee Data:", updatedData);
+    setIsModalVisible(false);
   };
 
   const handleDelete = (id) => {
@@ -69,7 +70,7 @@ const EmpTable = ({ dataSource }) => {
             type="link"
             icon={<EditOutlined style={{ color: "green" }} />}
             onClick={(e) => {
-              e.stopPropagation(); // Prevent row click event
+              e.stopPropagation();
               handleEdit(record);
             }}
           />
@@ -83,7 +84,7 @@ const EmpTable = ({ dataSource }) => {
             <Button
               type="link"
               icon={<DeleteOutlined style={{ color: "red" }} />}
-              onClick={(e) => e.stopPropagation()} // Prevent row click for delete as well
+              onClick={(e) => e.stopPropagation()}
             />
           </Popconfirm>
         </div>
@@ -101,24 +102,22 @@ const EmpTable = ({ dataSource }) => {
         onRow={(record) => ({
           onClick: () => handleRowClick(record),
         })}
-        rowClassName={() => "clickable-row"} // Add a CSS class for clickable rows
+        rowClassName={() => "clickable-row"}
       />
 
       {/* Edit Modal */}
       <ModalComponent
         title="Hodimni tahrirlash"
         isOpen={isModalVisible}
-        onOk={handleSave}
+        onOk={handleCancel}
         onCancel={handleCancel}
       >
         {selectedRecord && (
-          <div>
-            <p>ID: {selectedRecord.id}</p>
-            <p>Ism: {selectedRecord.name}</p>
-            <p>Familya: {selectedRecord.surname}</p>
-            <p>Telefon: {selectedRecord.phone}</p>
-            <p>Oylik daromadi: {selectedRecord.salary}</p>
-          </div>
+          <EmployeeForm
+            initialValues={selectedRecord}
+            onSubmit={handleSave}
+            onCancel={handleCancel}
+          />
         )}
       </ModalComponent>
 
@@ -151,3 +150,5 @@ const EmpTable = ({ dataSource }) => {
 };
 
 export default EmpTable;
+
+

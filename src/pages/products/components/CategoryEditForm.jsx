@@ -26,7 +26,6 @@ const CategoryEditForm = ({ onModalClose, editCategoryData }) => {
 
   return (
     <form className="mt-[20px]" onSubmit={handleSubmit(onSubmit)}>
-      {/* Kategoriya nomi maydoni */}
       <InputField
         control={control}
         name="category"
@@ -40,10 +39,9 @@ const CategoryEditForm = ({ onModalClose, editCategoryData }) => {
             message: "Kategoriya nomi kamida 2 ta belgidan iborat bo'lishi kerak",
           }
         }}
-        error={errors?.category} // Xatolikni ko'rsatish
+        error={errors?.category} 
       />
 
-      {/* Miqdor turi maydoni */}
       <div className="mb-4">
       <SelectField
         control={control}
