@@ -1,13 +1,13 @@
-
-import { useEffect, useState } from "react";
-import { Button, Select } from "antd";
-import { useForm, Controller } from "react-hook-form";
+import { useEffect} from "react";
+import { Button } from "antd";
+import { useForm } from "react-hook-form";
 import InputField from "../../../components/InputField";
 import { unitOptions } from "../constants/data";
 import SelectField from "../../../components/SelectField";
-const { Option } = Select;
+import api from "../../../../axios";
+import { toast } from "react-toastify";
 
-const CategoryEditForm = ({ onModalClose, editCategoryData }) => {
+const CategoryEditForm = ({ onModalClose, editCategoryData, refetch }) => {
   const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
   useEffect(() => {
@@ -20,8 +20,19 @@ const CategoryEditForm = ({ onModalClose, editCategoryData }) => {
   }, [editCategoryData]);
 
   const onSubmit = async (data) => {
-    console.log(data);
-    
+    try {
+      // API'ga ma'lumotlarni yuborish
+      const response = await api.patch(`/api/categories/${editCategoryData?.id}`, data);
+  
+      if (response?.statusText == "OK" || response?.status === 200 || response?.status === 201) {
+        toast.success("Kategoriya muvaffaqiyatli o'zgartirildi!");
+        onModalClose();
+        reset();
+        refetch()
+      }
+    } catch (error) {
+      toast.error("Kategoriyani o'zgartirishda xatolik yuz berdi!");
+    }
   };
 
   return (

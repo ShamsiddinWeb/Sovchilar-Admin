@@ -21,17 +21,11 @@ api.interceptors.request.use(
   api.interceptors.response.use(
     (response) => response,
     async (error) => {
-        console.log(error);
         
       const originalRequest = error.config;
       if (error.response?.status === 401) {
-        // originalRequest._retry = true;
-        console.log("401");
         
         const { refreshToken, clearUser, updateTokens } = useStore.getState();  
-        console.log(refreshToken);
-        
-        console.log("sdas");
         if (refreshToken) {
           try {
             const refreshResponse = await axios.get(`${REACT_APP_BASE_URL}api/auth/refresh?refresh_token=${refreshToken}`);
