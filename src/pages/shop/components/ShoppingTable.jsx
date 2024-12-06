@@ -14,12 +14,17 @@ import { useForm } from "react-hook-form";
 const ShoppingTable = () => {
   const navigate = useNavigate();
   // React Hook Form
-  const { control, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleEdit = (record) => {
-    reset(record)
-    console.log(record)
+    reset(record);
+    console.log(record);
     setIsModalVisible(true); // Modal oynasini ochish
   };
 

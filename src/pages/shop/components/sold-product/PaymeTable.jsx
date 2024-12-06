@@ -25,8 +25,17 @@ const PaymeTable = () => {
     { id: 3, payme: 15000, date: "2024-12-19T19:00:00.000Z" },
   ]);
 
-  const handleEdit = (record) => {
-    reset(record);
+  const openModal = (record) => {
+    if (record) {
+      // Tahrir uchun ma'lumotlarni forma ichiga yoyish
+      reset(record);
+    } else {
+      // Qo'shish uchun formani toza holatda ochish
+      reset({
+        payme: "",
+        date: null,
+      });
+    }
     setIsModalVisible(true);
   };
 
@@ -61,7 +70,7 @@ const PaymeTable = () => {
       title: "Vaqti",
       key: "date",
       dataIndex: "date",
-      render: (date) => dayjs(date).format("DD-MM-YYYY HH:mm")
+      render: (date) => dayjs(date).format("DD-MM-YYYY HH:mm"),
     },
     {
       title: "Amallar",
@@ -71,7 +80,9 @@ const PaymeTable = () => {
           <Button
             type="link"
             icon={<EditOutlined style={{ color: "green" }} />}
-            onClick={() => handleEdit(record)}
+            onClick={() => {
+              openModal(record);
+            }}
           />
           <Popconfirm
             title="Mahsulotni o'chirish"
@@ -93,7 +104,9 @@ const PaymeTable = () => {
     <div>
       <div className="mt-10 mb-5 flex justify-between">
         <h2 className="font-medium text-[18px]">Qabul qilingan to'lovlar</h2>
-        <Button type="primary">To'lov yaratish</Button>
+        <Button type="primary" onClick={() => openModal(undefined)}>
+          To'lov yaratish
+        </Button>
       </div>
 
       <Table
@@ -120,7 +133,12 @@ const PaymeTable = () => {
             error={errors.payme}
           />
 
-          <CDatePicker name={"date"} control={control} rules={{required: "Vaqtni kiriting"}} error={errors.date}/>
+          <CDatePicker
+            name={"date"}
+            control={control}
+            rules={{ required: "Vaqtni kiriting" }}
+            error={errors.date}
+          />
 
           <div className="flex justify-end mt-4">
             <Button className="mr-2" onClick={handleCancel}>
