@@ -6,27 +6,24 @@ import {
   EditOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
-import api from "../../../../axios";
 import { toast } from "react-toastify";
+import api from "../../../../../../axios";
 
-const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
+const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryData, refetch}) => {
   
 
-  const navigate = useNavigate()
-
   const handleEdit = (record) => {
-    setEditCategoryData(record)
+    setSingleEditCategoryData(record)
     showModal("edit")
   };
  
   const handleDelete = async (id) => {
     try {
-      await api.delete(`api/categories/${id}`);
-      toast.success("Kategoriya muvaffaqiyatli o'chirildi!");
+      await api.delete(`api/stock-history/${id}`);
+      toast.success("Mahsulot muvaffaqiyatli o'chirildi!");
       refetch()
     } catch (error) {
-      toast.error("Kategoriyani o'chirishda xatolik yuz berdi!");
+      toast.error("Mahsulotni o'chirishda xatolik yuz berdi!");
     }
   };
 
@@ -39,15 +36,23 @@ const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
     {
       title: "Nomi",
       dataIndex: "category",
-      render: (text) => <strong>{text}</strong>,
+      render: (text) => <strong>{text?.category}</strong>,
     },
     {
       title: "Soni",
-      dataIndex: "count"
+      dataIndex: "quantity"
     },
     {
-      title: "O'lchov turi",
-      dataIndex: "unit"
+      title: "Narxi",
+      dataIndex: "price"
+    },
+    {
+      title: "Umumiy narxi",
+      dataIndex: "totalPrice"
+    },
+    {
+      title: "Kelgan vaqti",
+      dataIndex: "createdAt"
     },
     {
       title: "Amallar",
@@ -60,8 +65,8 @@ const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
           ></Button>
 
           <Popconfirm
-            title="Kategoriyani o'chirish"
-            description="Siz ushbu kategoriyani o'chirishga aminmisiz?"
+            title="Mahsulotni o'chirish"
+            description="Siz ushbu mahsulotni o'chirishga aminmisiz?"
             icon={
               <QuestionCircleOutlined
                 style={{
@@ -85,25 +90,16 @@ const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
 
   return (
     <div style={{ margin: "20px", overflow: "auto" }}>
-
       <Table
         bordered
-        columns={columns}
+        columns={columns} 
         dataSource={data}
         loading={loading}
         pagination={{ pageSize: 5 }}
-        onRow={(record) => ({
-          style: { cursor: 'pointer' },
-          onClick: (event) => {
-            if (!event.target.closest("button")) {
-              navigate(`/categories/${record?.id}`)
-            }
-          },
-        })}
         rowKey={(record) => record.id}
       />
     </div>
   );
 };
 
-export default MyTable;
+export default SingleCategoryTable;

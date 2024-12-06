@@ -9,12 +9,12 @@ import Login from "./pages/auth/Login";
 import Error404 from "./pages/error404/Error404";
 import SingleShop from "./pages/shop/components/SingleShop";
 import ReadyProduct from "./pages/readyProduct/ReadyProduct";
-import SingleCategory from "./pages/products/components/SingleCategory";
 import { ToastContainer } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import { useStore } from "./store/store";
 import api from "../axios";
 import { useEffect } from "react";
+import SingleCategory from "./pages/products/components/singleCategory/SingleCategory";
 
 function App() {
   const {accessToken, clearUser} = useStore()

@@ -7,7 +7,7 @@ import SelectField from "../../../components/SelectField";
 import { toast } from "react-toastify";
 import api from "../../../../axios";
 
-const CategoryAddForm = ({ onModalClose }) => {
+const CategoryAddForm = ({ onModalClose, refetch }) => {
   const {
     control,
     handleSubmit,
@@ -24,10 +24,11 @@ const CategoryAddForm = ({ onModalClose }) => {
       // API'ga ma'lumotlarni yuborish
       const response = await api.post("/api/categories", data);
 
-      if (response.status === 201) {
+      if (response?.statusText == "OK" || response?.status === 200 || response?.status === 201) {
         toast.success("Kategoriya muvaffaqiyatli qo'shildi!");
         onModalClose();
         reset();
+        refetch()
       }
     } catch (error) {
       toast.error("Kategoriya qo'shishda xatolik yuz berdi!");
