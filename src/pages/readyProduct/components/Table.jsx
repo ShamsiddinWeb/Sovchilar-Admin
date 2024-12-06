@@ -7,28 +7,30 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import api from "../../../../axios";
 import { toast } from "react-toastify";
+import api from "../../../../axios";
 
-const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
-  
+const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) => {
 
   const navigate = useNavigate()
 
   const handleEdit = (record) => {
-    setEditCategoryData(record)
+    console.log(record);
+    
+    setEditReadyProductData(record)
     showModal("edit")
   };
  
   const handleDelete = async (id) => {
     try {
       await api.delete(`api/categories/${id}`);
-      toast.success("Kategoriya muvaffaqiyatli o'chirildi!");
+      toast.success("Mahsulot muvaffaqiyatli o'chirildi!");
       refetch()
     } catch (error) {
-      toast.error("Kategoriyani o'chirishda xatolik yuz berdi!");
+      toast.error("Mahsulotni o'chirishda xatolik yuz berdi!");
     }
   };
+  
 
   const columns = [
     {
@@ -38,7 +40,7 @@ const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
     },
     {
       title: "Nomi",
-      dataIndex: "category",
+      dataIndex: "conserveType",
       render: (text) => <strong>{text}</strong>,
     },
     {
@@ -46,8 +48,8 @@ const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
       dataIndex: "count"
     },
     {
-      title: "O'lchov turi",
-      dataIndex: "unit"
+      title: "Narxi",
+      dataIndex: "price"
     },
     {
       title: "Amallar",
@@ -60,8 +62,8 @@ const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
           ></Button>
 
           <Popconfirm
-            title="Kategoriyani o'chirish"
-            description="Siz ushbu kategoriyani o'chirishga aminmisiz?"
+            title="Mahsulotni o'chirish"
+            description="Siz ushbu mahsulotni o'chirishga aminmisiz?"
             icon={
               <QuestionCircleOutlined
                 style={{
@@ -96,7 +98,7 @@ const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
           style: { cursor: 'pointer' },
           onClick: (event) => {
             if (!event.target.closest("button")) {
-              navigate(`/categories/${record?.id}`)
+              navigate(`/ready-product/${record?.id}`)
             }
           },
         })}

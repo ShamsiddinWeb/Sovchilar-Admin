@@ -24,7 +24,7 @@ const CategoryAddForm = ({ onModalClose, refetch }) => {
       // API'ga ma'lumotlarni yuborish
       const response = await api.post("/api/categories", data);
 
-      if (response?.statusText == "OK" || response?.status === 200 || response?.status === 201) {
+      if (response?.status === 200 || response?.status === 201) {
         toast.success("Kategoriya muvaffaqiyatli qo'shildi!");
         onModalClose();
         reset();

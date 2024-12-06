@@ -13,8 +13,8 @@ const CategoryEditForm = ({ onModalClose, editCategoryData, refetch }) => {
   useEffect(() => {
     if (editCategoryData) {
       reset({
-        category: editCategoryData.category,
-        unit: editCategoryData.unit,
+        category: editCategoryData?.category,
+        unit: editCategoryData?.unit,
       });
     }
   }, [editCategoryData]);
@@ -24,7 +24,7 @@ const CategoryEditForm = ({ onModalClose, editCategoryData, refetch }) => {
       // API'ga ma'lumotlarni yuborish
       const response = await api.patch(`/api/categories/${editCategoryData?.id}`, data);
   
-      if (response?.statusText == "OK" || response?.status === 200 || response?.status === 201) {
+      if (response?.status === 200 || response?.status === 201) {
         toast.success("Kategoriya muvaffaqiyatli o'zgartirildi!");
         onModalClose();
         reset();

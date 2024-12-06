@@ -15,11 +15,30 @@ const ReadyPrduct = () => {
   const [search, setSearch] = useState(null);
 
   // const { data, loading, refetch } = useGetData("api/categories");
-  const data = [];
+  const data = [
+    {
+      id: 1,
+      conserveType: "Til",
+      count: 5,
+      price: "5000"
+    },
+    {
+      id: 2,
+      conserveType: "Qozon kabob",
+      count: 5,
+      price: "10000"
+    },
+    {
+      id: 3,
+      conserveType: "Tushonka",
+      count: 5,
+      price: "15000"
+    }
+  ];
 
   const filteredData = data?.filter((item) => {
     if (search?.length > 2) {
-      return item?.category?.toLowerCase().includes(search?.toLowerCase());
+      return item?.name?.toLowerCase().includes(search?.toLowerCase());
     } else {
       return item;
     }
@@ -84,7 +103,7 @@ const ReadyPrduct = () => {
         // loading={loading}
         // refetch={refetch}
         showModal={showModal}
-        setEditCategoryData={setEditReadyProductData}
+        setEditReadyProductData={setEditReadyProductData}
       />
     </div>
   );
