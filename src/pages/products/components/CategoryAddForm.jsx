@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
-import { Button, Select } from "antd";
-import { useForm, Controller } from "react-hook-form";
+import { Button} from "antd";
+import { useForm} from "react-hook-form";
 import InputField from "../../../components/InputField";
 import { unitOptions } from "../constants/data";
 import SelectField from "../../../components/SelectField";
-const { Option } = Select;
+import { toast } from "react-toastify";
+import api from "../../../../axios";
 
-const CategoryAddForm = ({ onModalClose }) => {
+const CategoryAddForm = ({ onModalClose, refetch }) => {
   const {
     control,
     handleSubmit,
@@ -18,10 +19,20 @@ const CategoryAddForm = ({ onModalClose }) => {
     reset();
   }, [onModalClose]);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    onModalClose();
-    reset();
+  const onSubmit = async (data) => {
+    try {
+      // API'ga ma'lumotlarni yuborish
+      const response = await api.post("/api/categories", data);
+
+      if (response?.statusText == "OK" || response?.status === 200 || response?.status === 201) {
+        toast.success("Kategoriya muvaffaqiyatli qo'shildi!");
+        onModalClose();
+        reset();
+        refetch()
+      }
+    } catch (error) {
+      toast.error("Kategoriya qo'shishda xatolik yuz berdi!");
+    }
   };
 
   return (

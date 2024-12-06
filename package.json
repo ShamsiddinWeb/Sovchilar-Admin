@@ -13,7 +13,10 @@
     "antd": "^5.22.2",
     "axios": "^1.7.8",
     "dayjs": "^1.11.13",
+<<<<<<< HEAD
     "moment": "^2.30.1",
+=======
+>>>>>>> 40cd10bec8e5d9dc4f60fb8637f61a8d43b136ee
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.2",

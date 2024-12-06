@@ -29,7 +29,7 @@ const Login = () => {
       navigate('/')
       
       toast.success("Tizimga muofaqiyatli kirdingiz");
-      // reset();
+      reset();
     } catch (error) {
       
       toast.error(error?.response?.data?.message)

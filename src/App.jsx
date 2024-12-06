@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import RootLayout from "./layout/Layout";
 import Analytics from "./pages/analiytics/Analytics";
@@ -9,11 +9,36 @@ import Login from "./pages/auth/Login";
 import Error404 from "./pages/error404/Error404";
 import SingleShop from "./pages/shop/components/SingleShop";
 import ReadyProduct from "./pages/readyProduct/ReadyProduct";
-import SingleCategory from "./pages/products/components/SingleCategory";
 import { ToastContainer } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
+import { useStore } from "./store/store";
+import api from "../axios";
+import { useEffect } from "react";
+import SingleCategory from "./pages/products/components/singleCategory/SingleCategory";
 
 function App() {
+  const {accessToken, clearUser} = useStore()
+  const navigate = useNavigate();
+
+  const token = async (token) => {
+    try {
+      const response = await api.get(`/api/auth/token?accessToken=${token}`);
+      if (!response?.data?.is_valid) {
+        navigate("/login");
+        clearUser();
+      } 
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (accessToken) {
+      token(accessToken);
+    } else {
+      navigate("/login");
+    }
+  }, [accessToken]);
   return (
     <>
     <ToastContainer />
