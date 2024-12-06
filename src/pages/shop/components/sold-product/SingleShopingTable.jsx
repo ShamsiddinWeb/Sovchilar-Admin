@@ -1,5 +1,10 @@
-import { Table } from "antd";
+import { Button, Popconfirm, Table } from "antd";
 import ModalComponent from "../../../../components/Modal";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
 
 const SoldProduct = () => {
   const columns = [
@@ -32,6 +37,37 @@ const SoldProduct = () => {
       title: "Topshirilgan vaqti",
       dataIndex: "date",
       key: "date",
+    },
+    {
+      title: "Amallar",
+      key: "actions",
+      render: (_, record) => (
+        <div>
+          <Button
+            type="link"
+            icon={<EditOutlined style={{ color: "green" }} />}
+            onClick={() => handleEdit(record)}
+          ></Button>
+
+          <Popconfirm
+            title="Mahsulotni o'chirish"
+            description="Siz ushbu mahsulotni o'chirishga aminmisiz?"
+            icon={
+              <QuestionCircleOutlined
+                style={{
+                  color: "red",
+                }}
+              />
+            }
+            onConfirm={() => handleDelete(record?.id)}
+          >
+            <Button
+              type="link"
+              icon={<DeleteOutlined style={{ color: "red" }} />}
+            ></Button>
+          </Popconfirm>
+        </div>
+      ),
     },
   ];
 
