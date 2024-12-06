@@ -8,10 +8,10 @@ function useAddEmployee() {
   const addNewEmployee = async (data) => {
     setIsLoading(true);
     try {
-      const response = await Service.addEmployee(data);
+      const response = await Service.post(data);
       toast.success("Ishchi muvaffaqiyatli qo'shildi");
       Service.getEmployees();
-      return response; 
+      return response;
     } catch (err) {
       console.error(err);
 

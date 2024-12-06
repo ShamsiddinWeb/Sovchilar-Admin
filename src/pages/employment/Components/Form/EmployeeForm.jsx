@@ -1,9 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "antd";
 import { useForm } from "react-hook-form";
 import InputField from "../../../../components/InputField";
+import useAddEmployee from "../../hooks/useAddEmployee";
+import useEditEmployee from "../../hooks/useEditEmployee";
 
-const EmployeeForm = ({ onModalClose, editEmployeeData, isEdit }) => {
+const EmployeeForm = ({
+  onModalClose,
+  editEmployeeData,
+  requestType,
+  fetchEmployees,
+}) => {
   const {
     control,
     handleSubmit,
@@ -11,25 +18,46 @@ const EmployeeForm = ({ onModalClose, editEmployeeData, isEdit }) => {
     reset,
   } = useForm();
 
-  // Prefill form data when editing
+  const { addNewEmployee, isLoading: isAddLoading } = useAddEmployee();
+  const { editEmployee, isLoading: isEditLoading } = useEditEmployee();
+
+  const [initialValues, setInitialValues] = useState({});
+
   useEffect(() => {
     if (editEmployeeData) {
-      reset(editEmployeeData);
+      const formattedData = {
+        ...editEmployeeData,
+        salary: Number(editEmployeeData.salary),
+      };
+      setInitialValues(formattedData);
+      reset(formattedData); // Populate the form with existing data
     } else {
-      reset(); // Clear form for add mode
+      setInitialValues({}); // Clear initial values
+      reset(); // Reset the form for add mode
     }
   }, [editEmployeeData, reset]);
+  
 
   const onSubmit = async (data) => {
-    if (isEdit) {
-      // Logic for editing an employee
-      console.log("Edit Employee Data:", data); // Replace with API call
-    } else {
-      // Logic for adding a new employee
-      console.log("Add New Employee Data:", data); // Replace with API call
+    try {
+      const formattedData = {
+        ...data,
+        salary: Number(data.salary),
+      };
+
+      if (editEmployeeData) {
+        await editEmployee?.(editEmployeeData.id, formattedData);
+      } else {
+        await addNewEmployee?.(formattedData);
+      }
+      fetchEmployees();
+      onModalClose?.(false);
+    } catch (error) {
+      console.error("Error in form submission:", error);
     }
-    onModalClose(); // Close modal after submit
   };
+
+  const isLoading = isAddLoading || isEditLoading;
 
   return (
     <form className="mt-[20px]" onSubmit={handleSubmit(onSubmit)}>
@@ -37,7 +65,7 @@ const EmployeeForm = ({ onModalClose, editEmployeeData, isEdit }) => {
         control={control}
         name="firstName"
         label="Ism"
-        placeholder="Ismingizni kiriting"
+        placeholder="Hodim ismini kiriting"
         type="text"
         rules={{
           required: "Ism majburiy maydon",
@@ -53,7 +81,7 @@ const EmployeeForm = ({ onModalClose, editEmployeeData, isEdit }) => {
         control={control}
         name="lastName"
         label="Familiya"
-        placeholder="Familiyangizni kiriting"
+        placeholder="Hodim familiyasini kiriting"
         type="text"
         rules={{
           required: "Familiya majburiy maydon",
@@ -64,29 +92,6 @@ const EmployeeForm = ({ onModalClose, editEmployeeData, isEdit }) => {
         }}
         error={errors?.lastName}
       />
-
-      {/* Password field only shown in Add mode */}
-      {!isEdit && (
-        <InputField
-          control={control}
-          name="password"
-          label="Parol"
-          placeholder="Parol kiriting"
-          type="password"
-          rules={{
-            required: "Parol majburiy maydon",
-            minLength: {
-              value: 6,
-              message: "Parol kamida 6 ta belgidan iborat bo'lishi kerak",
-            },
-            pattern: {
-              value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-              message: "Parol harflar va raqamlarni o'z ichiga olishi kerak",
-            },
-          }}
-          error={errors?.password}
-        />
-      )}
 
       <InputField
         control={control}
@@ -148,11 +153,17 @@ const EmployeeForm = ({ onModalClose, editEmployeeData, isEdit }) => {
         error={errors?.startedWorkingAt}
       />
 
-      <Button type="primary" htmlType="submit" className="w-full">
-        {isEdit ? "Tahrirlash" : "Qo'shish"}
+      <Button
+        type="primary"
+        htmlType="submit"
+        className="w-full"
+        loading={isLoading}
+      >
+        {editEmployeeData ? "Tahrirlash" : "Qo'shish"}
       </Button>
     </form>
   );
 };
 
 export default EmployeeForm;
+

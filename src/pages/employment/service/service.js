@@ -1,23 +1,22 @@
-import axios from "axios";
+import api from "../../../../axios";
 
-
-export const getEmployees = async () => {
-  const response = await axios.get("api/users/employee");
-  return response.data;
+const EmployeeService = {
+  getAll: async () => {
+    const response = await api.get("/api/users/employee");
+    return response?.data?.data || [];
+  },
+  post: async (data) => {
+    const response = await api.post("/api/auth/employee/sign-up", data);
+    return response?.data;
+  },
+  patch: async (id, data) => {
+    const response = await api.put(`/api/users/${id}`, data);
+    return response?.data;
+  },
+  delete: async (id) => {
+    const response = await api.delete(`/api/users/${id}`);
+    return response?.data;
+  },
 };
 
-export const addEmployee = async (data) => {
-  const response = await axios.post("api/auth/employee/sign-up", data);
-  return response.data;
-};
-
-export const editEmployee = async (id, data) => {
-  const response = await axios.put(`api/users/${id}`, data);
-  return response.data;
-};
-
-export const deleteEmployee = async (id) => {
-  const response = await axios.delete(`api/users/${id}`);
-  return response.data;
-};
-
+export default EmployeeService;

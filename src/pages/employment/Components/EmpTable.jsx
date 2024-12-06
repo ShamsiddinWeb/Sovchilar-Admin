@@ -8,11 +8,14 @@ import {
 } from "@ant-design/icons";
 import ModalComponent from "../../../components/Modal";
 import EmployeeForm from "../Components/Form/EmployeeForm"; // Assuming EmployeeForm is located in the same directory
+import useDeleteEmployee from "../hooks/useDeleteEmployee";
 
-const EmpTable = ({ dataSource }) => {
+const EmpTable = ({ dataSource, fetchEmployees }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isRowClickModalVisible, setIsRowClickModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
+
+  const { deleteEmployee, isLoading: isDeleteLoading } = useDeleteEmployee();
 
   const handleEdit = (record) => {
     setSelectedRecord(record);
@@ -34,8 +37,10 @@ const EmpTable = ({ dataSource }) => {
     setIsModalVisible(false);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     console.log(`Deleted employee with ID: ${id}`);
+    await deleteEmployee?.(id);
+    fetchEmployees();
   };
 
   const columns = [
@@ -46,13 +51,13 @@ const EmpTable = ({ dataSource }) => {
     },
     {
       title: "Ism",
-      dataIndex: "name",
+      dataIndex: "firstName",
       key: "name",
       render: (text) => <strong>{text}</strong>,
     },
     {
       title: "Telefon",
-      dataIndex: "phone",
+      dataIndex: "phoneNumber",
       key: "phone",
     },
     {
@@ -78,13 +83,14 @@ const EmpTable = ({ dataSource }) => {
             title="Hodimni o'chirish"
             description="Siz ushbu hodimni o'chirishga aminmisiz?"
             icon={<QuestionCircleOutlined style={{ color: "red" }} />}
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record?.id)}
             onPopupClick={(e) => e.stopPropagation()}
           >
             <Button
               type="link"
               icon={<DeleteOutlined style={{ color: "red" }} />}
               onClick={(e) => e.stopPropagation()}
+              loading={isDeleteLoading}
             />
           </Popconfirm>
         </div>
@@ -117,6 +123,8 @@ const EmpTable = ({ dataSource }) => {
             initialValues={selectedRecord}
             onSubmit={handleSave}
             onCancel={handleCancel}
+            requestType={"edit"}
+            fetchEmployees={fetchEmployees}
           />
         )}
       </ModalComponent>
@@ -130,18 +138,13 @@ const EmpTable = ({ dataSource }) => {
       >
         {selectedRecord && (
           <div>
-            <p>ID: {selectedRecord.id}</p>
-            <p>Ism: {selectedRecord.name}</p>
-            <p>Familya: {selectedRecord.surname}</p>
-            <p>Telefon: {selectedRecord.phone}</p>
-            <p>Oylik daromadi: {selectedRecord.salary}</p>
-            <p>Davomat: {selectedRecord.davomat || "N/A"}</p>
-            <p>
-              Ish boshlagan vaqti:{" "}
-              {selectedRecord.startDate
-                ? new Date(selectedRecord.startDate).toLocaleDateString()
-                : "N/A"}
-            </p>
+            <p>ID: {selectedRecord?.id}</p>
+            <p>Ism: {selectedRecord?.firstName}</p>
+            <p>Familya: {selectedRecord?.lastName}</p>
+            <p>Telefon: {selectedRecord?.phoneNumber}</p>
+            <p>Oylik daromadi: {selectedRecord?.salary}</p>
+            <p>Lavozimi: {selectedRecord?.role}</p>
+            <p>Ish boshlagan vaqti: {selectedRecord?.startedWorkingAt}</p>
           </div>
         )}
       </ModalComponent>
@@ -150,5 +153,4 @@ const EmpTable = ({ dataSource }) => {
 };
 
 export default EmpTable;
-
 
