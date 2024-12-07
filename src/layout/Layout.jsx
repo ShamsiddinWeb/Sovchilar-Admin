@@ -3,14 +3,21 @@ import {
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { BsShopWindow } from "react-icons/bs";
 import { AiOutlineProduct } from "react-icons/ai";
 import { FaBoxOpen, FaUserCircle } from "react-icons/fa";
-import { Button, Layout, Menu, Modal, Form, Input, theme } from "antd";
-import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Button, Layout, Menu, Modal, Form, Input, theme, Avatar } from "antd";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useStore } from "../store/store";
 
@@ -31,16 +38,16 @@ const RootLayout = () => {
 
   const getSelectedKeys = () => {
     switch (location?.pathname) {
-      case '/analytics':
-        return ['1'];
-      case '/categories':
-        return ['2'];
-        case `/categories/${id}`:
-        return ['2'];
-        case `/categories/history/${id}`:
-        return ['2'];
-      case '/shops':
-        return ['3'];
+      case "/analytics":
+        return ["1"];
+      case "/categories":
+        return ["2"];
+      case `/categories/${id}`:
+        return ["2"];
+      case `/categories/history/${id}`:
+        return ["2"];
+      case "/shops":
+        return ["3"];
       case `/shops/${id}`:
         return ["3"];
       case "/employees":
@@ -134,12 +141,16 @@ const RootLayout = () => {
               height: 64,
             }}
           />
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <FaUserCircle
-              style={{ fontSize: "30px", cursor: "pointer" }}
-              onClick={showProfileModal}
-            />
-            <span>{user?.name || "Foydalanuvchi"}</span> {/* Foydalanuvchi ismi */}
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-2">
+              <Avatar
+                style={{ backgroundColor: "primary", cursor: "pointer" }}
+                onClick={showProfileModal}
+                icon={<UserOutlined />}
+              />
+              <span>{user?.name || "Foydalanuvchi"}</span>{" "}
+              {/* Foydalanuvchi ismi */}
+            </div>
             <Button icon={<LogoutOutlined />} onClick={handleLogout}>
               Chiqish
             </Button>
