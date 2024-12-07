@@ -12,7 +12,6 @@ export const useEmployees = () => {
       const response = await EmployeeService.getAll();
       return response; 
     } catch (err) {
-      console.error("Error fetching employees:", err);
       toast.error(err?.response?.data?.message || "Something went wrong!");
       return null; 
     } finally {

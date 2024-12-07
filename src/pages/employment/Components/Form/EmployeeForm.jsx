@@ -6,10 +6,10 @@ import useAddEmployee from "../../hooks/useAddEmployee";
 import useEditEmployee from "../../hooks/useEditEmployee";
 
 const EmployeeForm = ({
-  onModalClose,
+  handleCancel,
   editEmployeeData,
-  requestType,
   fetchEmployees,
+  requestType,
 }) => {
   const {
     control,
@@ -25,6 +25,9 @@ const EmployeeForm = ({
 
   useEffect(() => {
     if (editEmployeeData) {
+      console.log(editEmployeeData);
+      
+      
       const formattedData = {
         ...editEmployeeData,
         salary: Number(editEmployeeData.salary),
@@ -36,7 +39,6 @@ const EmployeeForm = ({
       reset(); // Reset the form for add mode
     }
   }, [editEmployeeData, reset]);
-  
 
   const onSubmit = async (data) => {
     try {
@@ -51,9 +53,8 @@ const EmployeeForm = ({
         await addNewEmployee?.(formattedData);
       }
       fetchEmployees();
-      onModalClose?.(false);
+      handleCancel();
     } catch (error) {
-      console.error("Error in form submission:", error);
     }
   };
 
@@ -166,4 +167,3 @@ const EmployeeForm = ({
 };
 
 export default EmployeeForm;
-

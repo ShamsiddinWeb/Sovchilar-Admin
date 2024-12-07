@@ -10,10 +10,11 @@ import ModalComponent from "../../../components/Modal";
 import EmployeeForm from "../Components/Form/EmployeeForm"; // Assuming EmployeeForm is located in the same directory
 import useDeleteEmployee from "../hooks/useDeleteEmployee";
 
-const EmpTable = ({ dataSource, fetchEmployees }) => {
+const EmpTable = ({ dataSource, fetchEmployees, loading }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isRowClickModalVisible, setIsRowClickModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 5 }); // Track pagination
 
   const { deleteEmployee, isLoading: isDeleteLoading } = useDeleteEmployee();
 
@@ -43,11 +44,19 @@ const EmpTable = ({ dataSource, fetchEmployees }) => {
     fetchEmployees();
   };
 
+  const handleTableChange = (paginationInfo) => {
+    setPagination(paginationInfo); // Update pagination state
+  };
+
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
+      title: "No",
+      key: "index",
+      render: (_, __, index) => {
+        const currentPage = pagination.current || 1;
+        const pageSize = pagination.pageSize || 5;
+        return (currentPage - 1) * pageSize + index + 1;
+      },
     },
     {
       title: "Ism",
@@ -56,7 +65,7 @@ const EmpTable = ({ dataSource, fetchEmployees }) => {
       render: (text) => <strong>{text}</strong>,
     },
     {
-      title: "Telefon",
+      title: "Telefon raqami",
       dataIndex: "phoneNumber",
       key: "phone",
     },
@@ -101,13 +110,20 @@ const EmpTable = ({ dataSource, fetchEmployees }) => {
   return (
     <div style={{ margin: "20px", overflow: "auto" }}>
       <Table
+        bordered
         columns={columns}
+        loading={loading}
         dataSource={dataSource}
-        pagination={{ pageSize: 5 }}
+        pagination={{
+          pageSize: 5,
+          current: pagination.current,
+          total: dataSource.length,
+        }}
         rowKey={(record) => record.id}
         onRow={(record) => ({
           onClick: () => handleRowClick(record),
         })}
+        onChange={handleTableChange} // Listen to pagination changes
         rowClassName={() => "clickable-row"}
       />
 
@@ -120,7 +136,7 @@ const EmpTable = ({ dataSource, fetchEmployees }) => {
       >
         {selectedRecord && (
           <EmployeeForm
-            initialValues={selectedRecord}
+            editEmployeeData={selectedRecord}
             onSubmit={handleSave}
             onCancel={handleCancel}
             requestType={"edit"}
@@ -138,12 +154,11 @@ const EmpTable = ({ dataSource, fetchEmployees }) => {
       >
         {selectedRecord && (
           <div>
-            <p>ID: {selectedRecord?.id}</p>
             <p>Ism: {selectedRecord?.firstName}</p>
             <p>Familya: {selectedRecord?.lastName}</p>
             <p>Telefon: {selectedRecord?.phoneNumber}</p>
             <p>Oylik daromadi: {selectedRecord?.salary}</p>
-            <p>Lavozimi: {selectedRecord?.role}</p>
+            <p>Lavozimi: {selectedRecord?.position}</p>
             <p>Ish boshlagan vaqti: {selectedRecord?.startedWorkingAt}</p>
           </div>
         )}
@@ -153,4 +168,3 @@ const EmpTable = ({ dataSource, fetchEmployees }) => {
 };
 
 export default EmpTable;
-

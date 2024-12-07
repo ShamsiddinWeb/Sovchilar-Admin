@@ -16,6 +16,7 @@ import api from "../axios";
 import { useEffect } from "react";
 import SingleCategory from "./pages/products/components/singleCategory/SingleCategory";
 import SingleReadyProduct from "./pages/readyProduct/singleReadyProduct/SingleReadyProduct";
+import Attendance from "./pages/employment/Components/Attendance";
 
 function App() {
   const {accessToken, clearUser} = useStore()
@@ -52,6 +53,7 @@ function App() {
           <Route path="/shops" element={<Shops />} />
           <Route path="/shops/:id" element={<SingleShop />} />
           <Route path="/employees" element={<Employees />} />
+          <Route path="/employees/attendance" element={<Attendance />} />
           <Route path="/ready-product" element={<ReadyProduct />} />
           <Route path="/ready-product/:id" element={<SingleReadyProduct/>} />
           <Route path="/*" element={<Error404 />} />

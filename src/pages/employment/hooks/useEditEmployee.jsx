@@ -10,10 +10,9 @@ function useEditEmployee() {
     try {
       const response = await Service.patch(id, data);
       toast.success("Ishchi muvaffaqiyatli tahrirlandi");
-      Service.getEmployees();
+      Service.getAll();
       return response; 
     } catch (err) {
-      console.error(err);
 
       const errorMessage =
         err?.response?.data?.error?.response?.message?.[0] ||
