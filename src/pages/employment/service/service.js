@@ -17,6 +17,10 @@ const EmployeeService = {
     const response = await api.delete(`/api/users/${id}`);
     return response?.data;
   },
+  attendance: async (data) => {
+    const response = await api.post("/api/attendance", data);
+    return response;
+  },
 };
 
 export default EmployeeService;

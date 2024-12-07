@@ -10,10 +10,9 @@ function useAddEmployee() {
     try {
       const response = await Service.post(data);
       toast.success("Ishchi muvaffaqiyatli qo'shildi");
-      Service.getEmployees();
+      Service.getAll();
       return response;
     } catch (err) {
-      console.error(err);
 
       const errorMessage =
         err?.response?.data?.error?.response?.message?.[0] ||

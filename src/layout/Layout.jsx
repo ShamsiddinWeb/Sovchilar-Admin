@@ -52,6 +52,8 @@ const RootLayout = () => {
         return ["3"];
       case "/employees":
         return ["4"];
+      case "/employees/attendance":
+        return ["4"];
       case "/ready-product":
         return ["5"];
       case `/ready-product/${id}`:
