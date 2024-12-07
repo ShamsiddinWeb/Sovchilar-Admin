@@ -11,7 +11,7 @@ import ModalComponent from "../../../components/Modal";
 import InputField from "../../../components/InputField";
 import { useForm } from "react-hook-form";
 
-const ShoppingTable = () => {
+const ShoppingTable = ({data}) => {
   const navigate = useNavigate();
   // React Hook Form
   const {
@@ -92,27 +92,6 @@ const ShoppingTable = () => {
           </Popconfirm>
         </div>
       ),
-    },
-  ];
-
-  const data = [
-    {
-      id: 1,
-      name: "Halol",
-      phone: "+998 (99) 999-99-99",
-      address: "Oqtepa lavash markazidan 100 metr oldin",
-    },
-    {
-      id: 2,
-      name: "Andalus",
-      phone: "+998 (77) 77-77-77",
-      address: "Oqtepa lavash markazidan 100 metr keyin",
-    },
-    {
-      id: 3,
-      name: "Shirin",
-      phone: "+998 (00) 000-00-00",
-      address: "Adashib qoldim",
     },
   ];
 
