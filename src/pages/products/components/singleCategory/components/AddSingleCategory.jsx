@@ -68,11 +68,11 @@ const AddSingleCategory = ({ onModalClose, refetch }) => {
       <InputField
         control={control}
         name="quantity"
-        label="Mahsulot soni"
-        placeholder="mahsulot soni"
+        label="Mahsulot miqdori"
+        placeholder="mahsulot miqdori"
         type="number"
         rules={{
-          required: "Mahsulot sonini kiriting",
+          required: "Mahsulot miqdorini kiriting",
         }}
         error={errors?.quantity} // Xatolikni ko'rsatish
       />

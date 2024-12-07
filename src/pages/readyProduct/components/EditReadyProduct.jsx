@@ -18,18 +18,22 @@ const EditReadyProduct = ({ onModalClose, editReadyProductData, refetch }) => {
   }, [editReadyProductData]);
 
   const onSubmit = async (data) => {
+    const newData = {
+        price: +data?.price,
+        conserveType: data?.conserveType
+    }
     try {
       // API'ga ma'lumotlarni yuborish
-      const response = await api.patch(`/api/categories/${editCategoryData?.id}`, data);
+      const response = await api.patch(`/api/conserve-type/${editReadyProductData?.id}`, newData);
   
       if (response?.status === 200 || response?.status === 201) {
-        toast.success("Kategoriya muvaffaqiyatli o'zgartirildi!");
+        toast.success("Mahsulot muvaffaqiyatli o'zgartirildi!");
         onModalClose();
         reset();
         refetch()
       }
     } catch (error) {
-      toast.error("Kategoriyani o'zgartirishda xatolik yuz berdi!");
+      toast.error("Mahsulotni o'zgartirishda xatolik yuz berdi!");
     }
   };
 

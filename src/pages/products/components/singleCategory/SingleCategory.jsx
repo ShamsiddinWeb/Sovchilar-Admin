@@ -15,11 +15,11 @@ const SingleCategory = () => {
   const [formType, setFormType] = useState(null);
   const [editSingleCategoryData, setSingleEditCategoryData] = useState(null);
   const { id } = useParams();
-
+  
   const { data, loading, refetch } = useGetData(
-    `api/stock-history/category/${id}`
+    (dates[0] && dates[1]) ?  `api/stock-history/category/${id}?from=${dates[0]}&to=${dates[1]}` : `api/stock-history/category/${id}`
   );
-
+  
   const showModal = (type) => {
     setFormType(type);
     setIsModalOpen(true);

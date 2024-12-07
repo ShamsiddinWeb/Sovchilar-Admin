@@ -14,27 +14,8 @@ const ReadyPrduct = () => {
   const [editReadyProductData, setEditReadyProductData] = useState(null);
   const [search, setSearch] = useState(null);
 
-  // const { data, loading, refetch } = useGetData("api/categories");
-  const data = [
-    {
-      id: 1,
-      conserveType: "Til",
-      count: 5,
-      price: "5000"
-    },
-    {
-      id: 2,
-      conserveType: "Qozon kabob",
-      count: 5,
-      price: "10000"
-    },
-    {
-      id: 3,
-      conserveType: "Tushonka",
-      count: 5,
-      price: "15000"
-    }
-  ];
+  const { data, loading, refetch } = useGetData("api/conserve-type");
+ 
 
   const filteredData = data?.filter((item) => {
     if (search?.length > 2) {
@@ -73,11 +54,11 @@ const ReadyPrduct = () => {
         }
       >
         {formType === "add" ? (
-          <AddReadyProduct refetch={'refetch'} onModalClose={handleCancel} />
+          <AddReadyProduct refetch={refetch} onModalClose={handleCancel} />
         ) : formType === "edit" ? (
           <EditReadyProduct
-            refetch={'refetch'}
-            editCategoryData={editReadyProductData}
+            refetch={refetch}
+            editReadyProductData={editReadyProductData}
             onModalClose={handleCancel}
           />
         ) : (
@@ -100,8 +81,8 @@ const ReadyPrduct = () => {
       </div>
       <MyTable
         data={filteredData}
-        // loading={loading}
-        // refetch={refetch}
+        loading={loading}
+        refetch={refetch}
         showModal={showModal}
         setEditReadyProductData={setEditReadyProductData}
       />

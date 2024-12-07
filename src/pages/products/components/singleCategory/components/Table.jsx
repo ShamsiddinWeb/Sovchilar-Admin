@@ -39,15 +39,15 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
       render: (text) => <strong>{text?.category}</strong>,
     },
     {
-      title: "Soni",
+      title: "Miqdori",
       dataIndex: "quantity"
     },
     {
-      title: "Narxi",
+      title: "Narxi (so'm)",
       dataIndex: "price"
     },
     {
-      title: "Umumiy narxi",
+      title: "Umumiy narxi (so'm)",
       dataIndex: "totalPrice"
     },
     {
