@@ -5,8 +5,10 @@ import {
   EditOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
+import { useState } from "react";
 
 const SoldProduct = () => {
+  const [isModalVisible, setIsModalVisable] = useState(false)
   const columns = [
     {
       title: "№",
@@ -73,7 +75,15 @@ const SoldProduct = () => {
 
   return (
     <>
-      <h2 className="font-medium text-[18px] mb-5">Yetkazilgan mahsulotlar</h2>
+      <div className="mt-10 mb-5 flex justify-between">
+        <h2 className="font-medium text-[18px] mb-5">
+          Yetkazilgan mahsulotlar
+        </h2>
+        <Button type="primary" >
+        {/* onClick={() => openModal(undefined)} */}
+          To'lov yaratish
+        </Button>
+      </div>
       <Table
         columns={columns}
         bordered
@@ -89,9 +99,9 @@ const SoldProduct = () => {
       />
       <ModalComponent
         title="Mahsulotni tahrirlash"
-        // isOpen={isModalVisible}
-        // onOk={handleSave}
-        // onCancel={handleCancel}
+        isOpen={isModalVisible}
+        onOk={handleSave}
+        onCancel={handleCancel}
       >
         {/* <span className="border-r p-1">{selectedRecord?.id}</span>
         <span className="border-r p-1">{selectedRecord?.name}</span>
