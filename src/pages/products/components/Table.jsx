@@ -42,8 +42,9 @@ const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
       render: (text) => <strong>{text}</strong>,
     },
     {
-      title: "Soni",
-      dataIndex: "count"
+      title: "Miqdori",
+      dataIndex: "products",
+      render: (text) => <strong>{text[0]?.quantity || 0}</strong>,
     },
     {
       title: "O'lchov turi",

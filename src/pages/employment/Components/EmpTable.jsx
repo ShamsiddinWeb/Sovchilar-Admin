@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Button, Popconfirm } from "antd";
+import { Table, Button, Popconfirm, Switch } from "antd";
 import "antd/dist/reset.css";
 import {
   DeleteOutlined,
@@ -9,6 +9,7 @@ import {
 import ModalComponent from "../../../components/Modal";
 import EmployeeForm from "../Components/Form/EmployeeForm"; // Assuming EmployeeForm is located in the same directory
 import useDeleteEmployee from "../hooks/useDeleteEmployee";
+import useAttendance from "../hooks/useAttendance"; // Importing the useAttendance hook
 
 const EmpTable = ({ dataSource, fetchEmployees, loading }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -17,6 +18,7 @@ const EmpTable = ({ dataSource, fetchEmployees, loading }) => {
   const [pagination, setPagination] = useState({ current: 1, pageSize: 5 }); // Track pagination
 
   const { deleteEmployee, isLoading: isDeleteLoading } = useDeleteEmployee();
+  const { addAttendance, isLoading: isAttendanceLoading } = useAttendance(); // Use the attendance hook
 
   const handleEdit = (record) => {
     setSelectedRecord(record);
@@ -33,11 +35,6 @@ const EmpTable = ({ dataSource, fetchEmployees, loading }) => {
     setIsRowClickModalVisible(false);
   };
 
-  const handleSave = (updatedData) => {
-    console.log("Updated Employee Data:", updatedData);
-    setIsModalVisible(false);
-  };
-
   const handleDelete = async (id) => {
     console.log(`Deleted employee with ID: ${id}`);
     await deleteEmployee?.(id);
@@ -46,6 +43,17 @@ const EmpTable = ({ dataSource, fetchEmployees, loading }) => {
 
   const handleTableChange = (paginationInfo) => {
     setPagination(paginationInfo); // Update pagination state
+  };
+
+  const handleAttendanceSubmit = async () => {
+    const data = {
+      userId: selectedRecord.id,
+      isCame: !selectedRecord.isCame ? false : true, // Toggle attendance
+    };
+
+    await addAttendance(data);
+    fetchEmployees(); // Refresh employee data after attendance submission
+    setIsRowClickModalVisible(false); // Close the modal
   };
 
   const columns = [
@@ -137,8 +145,7 @@ const EmpTable = ({ dataSource, fetchEmployees, loading }) => {
         {selectedRecord && (
           <EmployeeForm
             editEmployeeData={selectedRecord}
-            onSubmit={handleSave}
-            onCancel={handleCancel}
+            handleCancel={handleCancel}
             requestType={"edit"}
             fetchEmployees={fetchEmployees}
           />
@@ -160,6 +167,34 @@ const EmpTable = ({ dataSource, fetchEmployees, loading }) => {
             <p>Oylik daromadi: {selectedRecord?.salary}</p>
             <p>Lavozimi: {selectedRecord?.position}</p>
             <p>Ish boshlagan vaqti: {selectedRecord?.startedWorkingAt}</p>
+
+            <div className="flex justify-between">
+              <p>
+                Kelganmi:{"   "}
+                <Switch
+                  className="ml-2"
+                  checked={selectedRecord?.isCame}
+                  onChange={(checked) => {
+                    setSelectedRecord((prevState) => ({
+                      ...prevState,
+                      isCame: checked,
+                    }));
+                  }}
+                  checkedChildren="Ha"
+                  unCheckedChildren="Yo'q"
+                  style={{
+                    backgroundColor: selectedRecord?.isCame ? "#25C481" : "red",
+                  }}
+                />
+              </p>
+              <Button
+                type="primary"
+                onClick={handleAttendanceSubmit}
+                loading={isAttendanceLoading}
+              >
+                Saqlash
+              </Button>
+            </div>
           </div>
         )}
       </ModalComponent>

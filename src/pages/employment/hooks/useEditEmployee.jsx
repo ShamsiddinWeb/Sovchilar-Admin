@@ -6,14 +6,15 @@ function useEditEmployee() {
   const [isLoading, setIsLoading] = useState(false);
 
   const editEmployee = async (id, data) => {
+    console.log(data);
+
     setIsLoading(true);
     try {
       const response = await Service.patch(id, data);
       toast.success("Ishchi muvaffaqiyatli tahrirlandi");
       Service.getAll();
-      return response; 
+      return response;
     } catch (err) {
-
       const errorMessage =
         err?.response?.data?.error?.response?.message?.[0] ||
         "Ishchi tahrirlashda xatolik yuz berdi";
@@ -30,4 +31,3 @@ function useEditEmployee() {
 }
 
 export default useEditEmployee;
-

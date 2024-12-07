@@ -19,7 +19,7 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
  
   const handleDelete = async (id) => {
     try {
-      await api.delete(`api/stock-history/${id}`);
+      await api.delete(`api/products/${id}`);
       toast.success("Mahsulot muvaffaqiyatli o'chirildi!");
       refetch()
     } catch (error) {
@@ -39,15 +39,15 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
       render: (text) => <strong>{text?.category}</strong>,
     },
     {
-      title: "Soni",
+      title: "Miqdori",
       dataIndex: "quantity"
     },
     {
-      title: "Narxi",
+      title: "Narxi (so'm)",
       dataIndex: "price"
     },
     {
-      title: "Umumiy narxi",
+      title: "Umumiy narxi (so'm)",
       dataIndex: "totalPrice"
     },
     {

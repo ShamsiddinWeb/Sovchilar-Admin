@@ -20,16 +20,20 @@ const AddReadyProduct = ({ onModalClose, refetch }) => {
   const onSubmit = async (data) => {
     try {
       // API'ga ma'lumotlarni yuborish
-      const response = await api.post("/api/categories", data);
+      const newData = {
+          price: +data?.price,
+          conserveType: data?.conserveType
+      }
+      const response = await api.post("/api/conserve-type", newData);
 
       if (response?.status === 200 || response?.status === 201) {
-        toast.success("Kategoriya muvaffaqiyatli qo'shildi!");
+        toast.success("Mahsulot muvaffaqiyatli qo'shildi!");
         onModalClose();
         reset();
         refetch()
       }
     } catch (error) {
-      toast.error("Kategoriya qo'shishda xatolik yuz berdi!");
+      toast.error("Mahsulot qo'shishda xatolik yuz berdi!");
     }
   };
 

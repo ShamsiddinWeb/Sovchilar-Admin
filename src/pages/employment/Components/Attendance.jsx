@@ -38,6 +38,7 @@ const Attendance = () => {
       attendance: {
         "2024-12-01": false,
         "2024-12-02": true,
+        "2024-12-04": true,
         // Add other dates
       },
     },

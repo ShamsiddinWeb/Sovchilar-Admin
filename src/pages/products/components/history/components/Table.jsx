@@ -6,29 +6,21 @@ import {
   EditOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import api from "../../../../axios";
+import api from "../../../../../../axios";
 
-const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) => {
+const HistoryTable = ({loading, data, refetch}) => {
+  
 
-  const navigate = useNavigate()
-
-  const handleEdit = (record) => {
-    setEditReadyProductData(record)
-    showModal("edit")
-  };
- 
   const handleDelete = async (id) => {
     try {
-      await api.delete(`api/conserve-type/${id}`);
+      await api.delete(`api/products/${id}`);
       toast.success("Mahsulot muvaffaqiyatli o'chirildi!");
       refetch()
     } catch (error) {
       toast.error("Mahsulotni o'chirishda xatolik yuz berdi!");
     }
   };
-  
 
   const columns = [
     {
@@ -38,27 +30,29 @@ const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) =
     },
     {
       title: "Nomi",
-      dataIndex: "conserveType",
-      render: (text) => <strong>{text}</strong>,
+      dataIndex: "category",
+      render: (text) => <strong>{text?.category}</strong>,
     },
     {
-      title: "Soni",
-      dataIndex: "count"
+      title: "Miqdori",
+      dataIndex: "quantity"
     },
     {
-      title: "Narxi",
+      title: "Narxi (so'm)",
       dataIndex: "price"
+    },
+    {
+      title: "Umumiy narxi (so'm)",
+      dataIndex: "totalPrice"
+    },
+    {
+      title: "Kelgan vaqti",
+      dataIndex: "createdAt"
     },
     {
       title: "Amallar",
       render: (_, record) => (
         <div>
-          <Button
-            type="link"
-            icon={<EditOutlined style={{ color: "green" }} />}
-            onClick={() => handleEdit(record)}
-          ></Button>
-
           <Popconfirm
             title="Mahsulotni o'chirish"
             description="Siz ushbu mahsulotni o'chirishga aminmisiz?"
@@ -81,29 +75,18 @@ const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) =
     },
   ];
 
-  
-
   return (
     <div style={{ margin: "20px", overflow: "auto" }}>
-
       <Table
         bordered
-        columns={columns}
+        columns={columns} 
         dataSource={data}
         loading={loading}
         pagination={{ pageSize: 5 }}
-        onRow={(record) => ({
-          style: { cursor: 'pointer' },
-          onClick: (event) => {
-            if (!event.target.closest("button")) {
-              navigate(`/ready-product/${record?.id}`)
-            }
-          },
-        })}
         rowKey={(record) => record.id}
       />
     </div>
   );
 };
 
-export default MyTable;
+export default HistoryTable;
