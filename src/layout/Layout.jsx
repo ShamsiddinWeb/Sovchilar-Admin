@@ -46,6 +46,8 @@ const RootLayout = () => {
         return ['4'];
         case '/ready-product':
         return ['5'];
+        case `/ready-product/${id}`:
+        return ['5'];
       default:
         return ['1'];
     }
