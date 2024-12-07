@@ -38,6 +38,8 @@ const RootLayout = () => {
         return ['2'];
         case `/categories/${id}`:
         return ['2'];
+        case `/categories/history/${id}`:
+        return ['2'];
       case '/shops':
         return ['3'];
       case `/shops/${id}`:
