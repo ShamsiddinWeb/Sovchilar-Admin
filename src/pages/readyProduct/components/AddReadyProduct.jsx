@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import { Button} from "antd";
 import { useForm} from "react-hook-form";
-import InputField from "../../../components/InputField";
-import { unitOptions } from "../constants/data";
-import SelectField from "../../../components/SelectField";
 import { toast } from "react-toastify";
 import api from "../../../../axios";
+import InputField from "../../../components/InputField";
 
-const CategoryAddForm = ({ onModalClose, refetch }) => {
+const AddReadyProduct = ({ onModalClose, refetch }) => {
   const {
     control,
     handleSubmit,
@@ -22,16 +20,20 @@ const CategoryAddForm = ({ onModalClose, refetch }) => {
   const onSubmit = async (data) => {
     try {
       // API'ga ma'lumotlarni yuborish
-      const response = await api.post("/api/categories", data);
+      const newData = {
+          price: +data?.price,
+          conserveType: data?.conserveType
+      }
+      const response = await api.post("/api/conserve-type", newData);
 
       if (response?.status === 200 || response?.status === 201) {
-        toast.success("Kategoriya muvaffaqiyatli qo'shildi!");
+        toast.success("Mahsulot muvaffaqiyatli qo'shildi!");
         onModalClose();
         reset();
         refetch()
       }
     } catch (error) {
-      toast.error("Kategoriya qo'shishda xatolik yuz berdi!");
+      toast.error("Mahsulot qo'shishda xatolik yuz berdi!");
     }
   };
 
@@ -40,33 +42,33 @@ const CategoryAddForm = ({ onModalClose, refetch }) => {
       {/* Kategoriya nomi maydoni */}
       <InputField
         control={control}
-        name="category"
-        label="Kategoriya Nomi"
-        placeholder="Masalan, Go'sht"
+        name="conserveType"
+        label="Mahsulot Nomi"
+        placeholder="Masalan, Tushonka"
         type="text"
         rules={{
-          required: "Kategoriya nomi maydoni talab qilinadi",
+          required: "Mahsulot nomi maydoni talab qilinadi",
           minLength: {
             value: 2,
             message:
-              "Kategoriya nomi kamida 2 ta belgidan iborat bo'lishi kerak",
+              "Mahsulot nomi kamida 2 ta belgidan iborat bo'lishi kerak",
           },
         }}
-        error={errors?.category} // Xatolikni ko'rsatish
+        error={errors?.conserveType} // Xatolikni ko'rsatish
       />
 
       {/* Miqdor turi maydoni */}
       <div className="mb-4">
-      <SelectField
+      <InputField
         control={control}
-        name="unit"
-        label="Miqdor Turi"
-        placeholder="Miqdor turini tanlang"
-        options={unitOptions}
+        name="price"
+        label="Mahsulot narxi"
+        placeholder="Mahsulot narxini kiriting"
+        type="number"
         rules={{
-          required: "Miqdor turi maydoni talab qilinadi",
+          required: "Mahsulot narxi maydoni talab qilinadi"
         }}
-        error={errors?.unit}
+        error={errors?.price} // Xatolikni ko'rsatish
       />
         
       </div>
@@ -78,4 +80,4 @@ const CategoryAddForm = ({ onModalClose, refetch }) => {
   );
 };
 
-export default CategoryAddForm;
+export default AddReadyProduct;

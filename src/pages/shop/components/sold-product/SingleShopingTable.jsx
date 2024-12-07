@@ -1,7 +1,14 @@
-import { Table } from "antd";
+import { Button, Popconfirm, Table } from "antd";
 import ModalComponent from "../../../../components/Modal";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
+import { useState } from "react";
 
 const SoldProduct = () => {
+  const [isModalVisible, setIsModalVisable] = useState(false)
   const columns = [
     {
       title: "№",
@@ -33,11 +40,50 @@ const SoldProduct = () => {
       dataIndex: "date",
       key: "date",
     },
+    {
+      title: "Amallar",
+      key: "actions",
+      render: (_, record) => (
+        <div>
+          <Button
+            type="link"
+            icon={<EditOutlined style={{ color: "green" }} />}
+            onClick={() => handleEdit(record)}
+          ></Button>
+
+          <Popconfirm
+            title="Mahsulotni o'chirish"
+            description="Siz ushbu mahsulotni o'chirishga aminmisiz?"
+            icon={
+              <QuestionCircleOutlined
+                style={{
+                  color: "red",
+                }}
+              />
+            }
+            onConfirm={() => handleDelete(record?.id)}
+          >
+            <Button
+              type="link"
+              icon={<DeleteOutlined style={{ color: "red" }} />}
+            ></Button>
+          </Popconfirm>
+        </div>
+      ),
+    },
   ];
 
   return (
     <>
-      <h2 className="font-medium text-[18px] mb-5">Yetkazilgan mahsulotlar</h2>
+      <div className="mt-10 mb-5 flex justify-between">
+        <h2 className="font-medium text-[18px] mb-5">
+          Yetkazilgan mahsulotlar
+        </h2>
+        <Button type="primary" >
+        {/* onClick={() => openModal(undefined)} */}
+          To'lov yaratish
+        </Button>
+      </div>
       <Table
         columns={columns}
         bordered
@@ -53,9 +99,9 @@ const SoldProduct = () => {
       />
       <ModalComponent
         title="Mahsulotni tahrirlash"
-        // isOpen={isModalVisible}
-        // onOk={handleSave}
-        // onCancel={handleCancel}
+        isOpen={isModalVisible}
+        onOk={handleSave}
+        onCancel={handleCancel}
       >
         {/* <span className="border-r p-1">{selectedRecord?.id}</span>
         <span className="border-r p-1">{selectedRecord?.name}</span>

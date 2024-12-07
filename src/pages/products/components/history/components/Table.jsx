@@ -9,14 +9,9 @@ import {
 import { toast } from "react-toastify";
 import api from "../../../../../../axios";
 
-const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryData, refetch}) => {
+const HistoryTable = ({loading, data, refetch}) => {
   
 
-  const handleEdit = (record) => {
-    setSingleEditCategoryData(record)
-    showModal("edit")
-  };
- 
   const handleDelete = async (id) => {
     try {
       await api.delete(`api/products/${id}`);
@@ -58,12 +53,6 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
       title: "Amallar",
       render: (_, record) => (
         <div>
-          <Button
-            type="link"
-            icon={<EditOutlined style={{ color: "green" }} />}
-            onClick={() => handleEdit(record)}
-          ></Button>
-
           <Popconfirm
             title="Mahsulotni o'chirish"
             description="Siz ushbu mahsulotni o'chirishga aminmisiz?"
@@ -86,8 +75,6 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
     },
   ];
 
-  
-
   return (
     <div style={{ margin: "20px", overflow: "auto" }}>
       <Table
@@ -102,4 +89,4 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
   );
 };
 
-export default SingleCategoryTable;
+export default HistoryTable;

@@ -14,15 +14,9 @@ const Category = () => {
   const [editCategoryData, setEditCategoryData] = useState(null);
   const [search, setSearch] = useState(null);
 
-  const { data, loading, refetch } = useGetData("api/categories");
+  const { data, loading, refetch } = useGetData(search ? `api/categories/category/${search}` : "api/categories");
 
-  const filteredData = data?.filter((item) => {
-    if(search?.length > 2){
-      return item?.category?.toLowerCase().includes(search?.toLowerCase())
-    }else{
-      return item
-    }
-  });
+  
   const showModal = (type) => {
     setFormType(type);
     setIsModalOpen(true);
@@ -77,7 +71,7 @@ const Category = () => {
         </div>
       </div>
       <MyTable
-        data={filteredData}
+        data={data}
         loading={loading}
         refetch={refetch}
         showModal={showModal}

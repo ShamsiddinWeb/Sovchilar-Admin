@@ -6,20 +6,25 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModalComponent from "../../../components/Modal";
 import InputField from "../../../components/InputField";
 import { useForm } from "react-hook-form";
 
-const ShoppingTable = () => {
+const ShoppingTable = ({data}) => {
   const navigate = useNavigate();
   // React Hook Form
-  const { control, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleEdit = (record) => {
-    reset(record)
-    console.log(record)
+    reset(record);
+    console.log(record);
     setIsModalVisible(true); // Modal oynasini ochish
   };
 
@@ -90,32 +95,12 @@ const ShoppingTable = () => {
     },
   ];
 
-  const data = [
-    {
-      id: 1,
-      name: "Halol",
-      phone: "+998 (99) 999-99-99",
-      address: "Oqtepa lavash markazidan 100 metr oldin",
-    },
-    {
-      id: 2,
-      name: "Andalus",
-      phone: "+998 (77) 77-77-77",
-      address: "Oqtepa lavash markazidan 100 metr keyin",
-    },
-    {
-      id: 3,
-      name: "Shirin",
-      phone: "+998 (00) 000-00-00",
-      address: "Adashib qoldim",
-    },
-  ];
-
   return (
     <div style={{ margin: "20px", overflow: "auto" }}>
       <Table
         columns={columns}
         dataSource={data}
+        bordered
         pagination={{ pageSize: 5 }}
         onRow={(record) => ({
           onClick: (event) => {
@@ -125,6 +110,7 @@ const ShoppingTable = () => {
           },
         })}
       />
+
       <ModalComponent
         title="Mahsulotni tahrirlash"
         isOpen={isModalVisible}

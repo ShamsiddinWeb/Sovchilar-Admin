@@ -7,9 +7,9 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
-import api from "../../../../../../axios";
+import api from "../../../../../axios";
 
-const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryData, refetch}) => {
+const SingleReadyProductTable = ({loading, data, showModal, setSingleEditCategoryData, refetch}) => {
   
 
   const handleEdit = (record) => {
@@ -19,7 +19,7 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
  
   const handleDelete = async (id) => {
     try {
-      await api.delete(`api/products/${id}`);
+      await api.delete(`api/stock-history/${id}`);
       toast.success("Mahsulot muvaffaqiyatli o'chirildi!");
       refetch()
     } catch (error) {
@@ -35,7 +35,7 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
     },
     {
       title: "Nomi",
-      dataIndex: "category",
+      dataIndex: "name",
       render: (text) => <strong>{text?.category}</strong>,
     },
     {
@@ -102,4 +102,4 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
   );
 };
 
-export default SingleCategoryTable;
+export default SingleReadyProductTable;

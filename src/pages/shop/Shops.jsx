@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Form } from 'antd';
 import ModalComponent from '../../components/Modal';
 import InputField from '../../components/InputField';
 import ShoppingTable from './components/ShoppingTable';
+import useFetch from '../../hooks/reqFetch';
 
 const Shops = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const { data, loading, postData, editData, getData } = useFetch("/api/stores");
   // React Hook Form
   const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
@@ -21,11 +22,14 @@ const Shops = () => {
   };
 
   const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    // Ma'lumotlarni yuborish lozim bo'lgan joy
+    postData(data)
     setIsModalOpen(false);
     reset();
   };
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   return (
     <div>
@@ -88,7 +92,7 @@ const Shops = () => {
         </Button>
       </div>
 
-      <ShoppingTable />
+      <ShoppingTable data={data} loading={loading}/>
     </div>
   );
 };

@@ -31,7 +31,7 @@ const EditSingleCategory = ({ onModalClose, editSingleCategoryData, refetch }) =
     }
     try {
       // API'ga ma'lumotlarni yuborish
-      const response = await api.patch(`/api/stock-history/${editSingleCategoryData?.id}`, newData);
+      const response = await api.patch(`/api/products/${editSingleCategoryData?.id}`, newData);
       
       if (response?.statusText == "OK" || response?.status == 200 || response?.status == 201) {
         toast.success("Mahsulot muvaffaqiyatli o'zgartirildi!");
