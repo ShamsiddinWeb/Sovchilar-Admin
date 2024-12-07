@@ -5,12 +5,7 @@ import InputField from "../../../../components/InputField";
 import useAddEmployee from "../../hooks/useAddEmployee";
 import useEditEmployee from "../../hooks/useEditEmployee";
 
-const EmployeeForm = ({
-  onModalClose,
-  editEmployeeData,
-  requestType,
-  fetchEmployees,
-}) => {
+const EmployeeForm = ({ handleCancel, editEmployeeData, fetchEmployees }) => {
   const {
     control,
     handleSubmit,
@@ -25,23 +20,29 @@ const EmployeeForm = ({
 
   useEffect(() => {
     if (editEmployeeData) {
+      console.log(editEmployeeData);
+
       const formattedData = {
         ...editEmployeeData,
         salary: Number(editEmployeeData.salary),
       };
       setInitialValues(formattedData);
-      reset(formattedData); // Populate the form with existing data
+      reset(formattedData);
     } else {
-      setInitialValues({}); // Clear initial values
-      reset(); // Reset the form for add mode
+      setInitialValues({});
+      reset();
     }
   }, [editEmployeeData, reset]);
-  
 
   const onSubmit = async (data) => {
     try {
       const formattedData = {
-        ...data,
+        salary: Number(data.salary),
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phoneNumber: data.phoneNumber,
+        position: data.position,
+        startedWorkingAt: data.startedWorkingAt,
         salary: Number(data.salary),
       };
 
@@ -51,10 +52,8 @@ const EmployeeForm = ({
         await addNewEmployee?.(formattedData);
       }
       fetchEmployees();
-      onModalClose?.(false);
-    } catch (error) {
-      console.error("Error in form submission:", error);
-    }
+      handleCancel();
+    } catch (error) {}
   };
 
   const isLoading = isAddLoading || isEditLoading;
@@ -166,4 +165,3 @@ const EmployeeForm = ({
 };
 
 export default EmployeeForm;
-

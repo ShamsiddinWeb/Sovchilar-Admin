@@ -57,7 +57,7 @@ const Category = () => {
         )}
       </ModalComponent>
       <div className="flex justify-between items-center">
-        <div>Kategoriyalar</div>
+        <div>Ombor</div>
         <div className="flex gap-4">
           <Search
             placeholder="Kategoriya qidirish"

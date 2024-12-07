@@ -9,9 +9,17 @@ import {
 import { useNavigate } from "react-router-dom";
 import api from "../../../../axios";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
-  
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5,
+  });
+
+  const handleTableChange = (pagination) => {
+    setPagination(pagination); // Pagination holatini yangilash
+  };
 
   const navigate = useNavigate()
 
@@ -34,7 +42,7 @@ const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
     {
       title: "No",
       dataIndex: "no",
-      render: (_, __, index) => index + 1, 
+      render: (_, __, index) => index + 1 + (pagination.current - 1) * pagination.pageSize, 
     },
     {
       title: "Nomi",
@@ -92,6 +100,7 @@ const MyTable = ({showModal, setEditCategoryData, data, loading, refetch}) => {
         columns={columns}
         dataSource={data}
         loading={loading}
+        onChange={handleTableChange}
         pagination={{ pageSize: 5 }}
         onRow={(record) => ({
           style: { cursor: 'pointer' },

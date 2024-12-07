@@ -10,10 +10,9 @@ function useDeleteEmployee() {
     try {
       const response = await Service.delete(id);
       toast.success("Ishchi o'chirildi");
-      Service.getEmployees();
+      Service.getAll();
       return response;
     } catch (err) {
-      console.error(err);
       const errorMessage =
         err?.response?.data?.error?.response?.message?.[0] ||
         "Ishchi o'chirishda xatolik yuz berdi";

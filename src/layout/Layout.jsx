@@ -52,9 +52,13 @@ const RootLayout = () => {
         return ["3"];
       case "/employees":
         return ["4"];
+      case "/employees/attendance":
+        return ["4"];
       case "/ready-product":
         return ["5"];
       case `/ready-product/${id}`:
+        return ["5"];
+        case `/ready-product/history/${id}`:
         return ["5"];
       default:
         return ["1"];
@@ -100,7 +104,7 @@ const RootLayout = () => {
             {
               key: "2",
               icon: <FaBoxOpen style={{ fontSize: "20px" }} />,
-              label: <Link to="/categories">Kategoriyalar</Link>,
+              label: <Link to="/categories">Ombor</Link>,
             },
             {
               key: "3",
