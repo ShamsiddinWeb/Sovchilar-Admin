@@ -8,9 +8,17 @@ import {
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import api from "../../../../../../axios";
+import { useState } from "react";
 
 const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryData, refetch}) => {
-  
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5,
+  });
+
+  const handleTableChange = (pagination) => {
+    setPagination(pagination); // Pagination holatini yangilash
+  };
 
   const handleEdit = (record) => {
     setSingleEditCategoryData(record)
@@ -31,7 +39,7 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
     {
       title: "No",
       dataIndex: "no",
-      render: (_, __, index) => index + 1, 
+      render: (_, __, index) => index + 1 + (pagination.current - 1) * pagination.pageSize, 
     },
     {
       title: "Nomi",
@@ -63,24 +71,6 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
             icon={<EditOutlined style={{ color: "green" }} />}
             onClick={() => handleEdit(record)}
           ></Button>
-
-          <Popconfirm
-            title="Mahsulotni o'chirish"
-            description="Siz ushbu mahsulotni o'chirishga aminmisiz?"
-            icon={
-              <QuestionCircleOutlined
-                style={{
-                  color: "red",
-                }}
-              />
-            }
-            onConfirm={() => handleDelete(record?.id)}
-          >
-            <Button
-              type="link"
-              icon={<DeleteOutlined style={{ color: "red" }} />}
-            ></Button>
-          </Popconfirm>
         </div>
       ),
     },
@@ -95,6 +85,7 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
         columns={columns} 
         dataSource={data}
         loading={loading}
+        onChange={handleTableChange}
         pagination={{ pageSize: 5 }}
         rowKey={(record) => record.id}
       />
