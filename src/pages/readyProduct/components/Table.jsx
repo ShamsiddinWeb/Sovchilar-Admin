@@ -14,7 +14,7 @@ import { useState } from "react";
 const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) => {
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 5,
+    pageSize: 10,
   });
 
   const handleTableChange = (pagination) => {
@@ -51,8 +51,9 @@ const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) =
       render: (text) => <strong>{text}</strong>,
     },
     {
-      title: "Soni",
-      dataIndex: "count"
+      title: "Miqdori",
+      dataIndex: "readyConserves",
+      render: (text) => <div>{text[0]?.quantity || 0}</div>,
     },
     {
       title: "Narxi",
@@ -100,7 +101,7 @@ const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) =
         dataSource={data}
         loading={loading}
         onChange={handleTableChange}
-        pagination={{ pageSize: 5 }}
+        pagination={{ pageSize: 10 }}
         onRow={(record) => ({
           style: { cursor: 'pointer' },
           onClick: (event) => {

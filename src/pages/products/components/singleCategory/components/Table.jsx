@@ -1,10 +1,8 @@
 
-import { Table, Button, Popconfirm } from "antd";
+import { Table, Button } from "antd";
 import "antd/dist/reset.css"; 
 import {
-  DeleteOutlined,
   EditOutlined,
-  QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import api from "../../../../../../axios";
@@ -13,7 +11,7 @@ import { useState } from "react";
 const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryData, refetch}) => {
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 5,
+    pageSize: 10,
   });
 
   const handleTableChange = (pagination) => {
@@ -86,7 +84,7 @@ const SingleCategoryTable = ({loading, data, showModal, setSingleEditCategoryDat
         dataSource={data}
         loading={loading}
         onChange={handleTableChange}
-        pagination={{ pageSize: 5 }}
+        pagination={{ pageSize: 10 }}
         rowKey={(record) => record.id}
       />
     </div>
