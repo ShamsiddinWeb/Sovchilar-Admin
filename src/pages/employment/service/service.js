@@ -17,8 +17,12 @@ const EmployeeService = {
     const response = await api.delete(`/api/users/${id}`);
     return response?.data;
   },
-  attendance: async (data) => {
+  attendancePost: async (data) => {
     const response = await api.post("/api/attendance", data);
+    return response;
+  },
+  attendanceGet: async (data) => {
+    const response = await api.get("/api/attendance");
     return response;
   },
 };
