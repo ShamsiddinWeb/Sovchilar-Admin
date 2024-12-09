@@ -43,7 +43,6 @@ const EmployeeForm = ({ handleCancel, editEmployeeData, fetchEmployees }) => {
         phoneNumber: data.phoneNumber,
         position: data.position,
         startedWorkingAt: data.startedWorkingAt,
-        salary: Number(data.salary),
       };
 
       if (editEmployeeData) {
@@ -53,9 +52,11 @@ const EmployeeForm = ({ handleCancel, editEmployeeData, fetchEmployees }) => {
       }
       fetchEmployees();
       handleCancel();
-    } catch (error) {}
+      reset(); // Clear the form inputs after submission
+    } catch (error) {
+      console.error(error);
+    }
   };
-
   const isLoading = isAddLoading || isEditLoading;
 
   return (

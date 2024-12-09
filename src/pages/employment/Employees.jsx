@@ -4,7 +4,6 @@ import ModalComponent from "../../components/Modal";
 import EmpTable from "./Components/EmpTable";
 import { useEmployees } from "./hooks/useGetEmployees";
 import EmployeeForm from "./Components/Form/EmployeeForm";
-import Attendance from "./Components/Attendance";
 import { useNavigate } from "react-router-dom";
 
 const Employees = () => {

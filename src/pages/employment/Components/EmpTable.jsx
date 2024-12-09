@@ -15,7 +15,7 @@ const EmpTable = ({ dataSource, fetchEmployees, loading }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isRowClickModalVisible, setIsRowClickModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 5 }); // Track pagination
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 }); // Track pagination
 
   const { deleteEmployee, isLoading: isDeleteLoading } = useDeleteEmployee();
   const { addAttendance, isLoading: isAttendanceLoading } = useAttendance(); // Use the attendance hook
@@ -62,7 +62,7 @@ const EmpTable = ({ dataSource, fetchEmployees, loading }) => {
       key: "index",
       render: (_, __, index) => {
         const currentPage = pagination.current || 1;
-        const pageSize = pagination.pageSize || 5;
+        const pageSize = pagination.pageSize || 10;
         return (currentPage - 1) * pageSize + index + 1;
       },
     },
@@ -123,7 +123,7 @@ const EmpTable = ({ dataSource, fetchEmployees, loading }) => {
         loading={loading}
         dataSource={dataSource}
         pagination={{
-          pageSize: 5,
+          pageSize: 10,
           current: pagination.current,
           total: dataSource.length,
         }}
