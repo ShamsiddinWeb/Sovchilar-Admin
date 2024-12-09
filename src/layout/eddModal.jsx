@@ -26,7 +26,7 @@ const EditLoginPasswordModal = ({ visible, onClose, userId }) => {
 
   return (
     <Modal
-      visible={visible}
+      open={visible}
       title="Parol va Telefon Raqamini Yangilash"
       onCancel={onClose}
       footer={[

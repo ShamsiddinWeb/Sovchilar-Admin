@@ -58,20 +58,7 @@ const AddReadyProduct = ({ onModalClose, refetch }) => {
       />
 
       {/* Miqdor turi maydoni */}
-      <div className="mb-4">
-      <InputField
-        control={control}
-        name="price"
-        label="Mahsulot narxi"
-        placeholder="Mahsulot narxini kiriting"
-        type="number"
-        rules={{
-          required: "Mahsulot narxi maydoni talab qilinadi"
-        }}
-        error={errors?.price} // Xatolikni ko'rsatish
-      />
-        
-      </div>
+      
 
       <Button type="primary" htmlType="submit" className="w-full">
         Saqlash

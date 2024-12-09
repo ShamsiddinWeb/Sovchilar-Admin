@@ -12,19 +12,14 @@ const EditReadyProduct = ({ onModalClose, editReadyProductData, refetch }) => {
     if (editReadyProductData) {
       reset({
         conserveType: editReadyProductData?.conserveType,
-        price: editReadyProductData?.price,
       });
     }
   }, [editReadyProductData]);
 
   const onSubmit = async (data) => {
-    const newData = {
-        price: +data?.price,
-        conserveType: data?.conserveType
-    }
     try {
       // API'ga ma'lumotlarni yuborish
-      const response = await api.patch(`/api/conserve-type/${editReadyProductData?.id}`, newData);
+      const response = await api.patch(`/api/conserve-type/${editReadyProductData?.id}`, data);
   
       if (response?.status === 200 || response?.status === 201) {
         toast.success("Mahsulot muvaffaqiyatli o'zgartirildi!");
@@ -57,21 +52,6 @@ const EditReadyProduct = ({ onModalClose, editReadyProductData, refetch }) => {
         error={errors?.conserveType} // Xatolikni ko'rsatish
       />
 
-      {/* Miqdor turi maydoni */}
-      <div className="mb-4">
-      <InputField
-        control={control}
-        name="price"
-        label="Mahsulot narxi"
-        placeholder="Mahsulot narxini kiriting"
-        type="number"
-        rules={{
-          required: "Mahsulot narxi maydoni talab qilinadi"
-        }}
-        error={errors?.price} // Xatolikni ko'rsatish
-      />
-        
-      </div>
 
       <Button
         type="primary"
