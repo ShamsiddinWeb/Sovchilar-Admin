@@ -8,7 +8,7 @@ import useFetch from '../../hooks/reqFetch';
 
 const Shops = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data, loading, postData, editData, getData } = useFetch("/api/stores");
+  const { data, loading, postData, editData, getData, deleteData } = useFetch("/api/stores");
   // React Hook Form
   const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
@@ -92,7 +92,7 @@ const Shops = () => {
         </Button>
       </div>
 
-      <ShoppingTable data={data} loading={loading}/>
+      <ShoppingTable data={data} loading={loading} editData={editData} deleteData={deleteData}/>
     </div>
   );
 };

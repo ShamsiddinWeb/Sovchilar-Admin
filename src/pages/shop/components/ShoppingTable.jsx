@@ -11,9 +11,8 @@ import ModalComponent from "../../../components/Modal";
 import InputField from "../../../components/InputField";
 import { useForm } from "react-hook-form";
 
-const ShoppingTable = ({data}) => {
+const ShoppingTable = ({loading, data, editData, deleteData}) => {
   const navigate = useNavigate();
-  // React Hook Form
   const {
     control,
     handleSubmit,
@@ -24,33 +23,36 @@ const ShoppingTable = ({data}) => {
 
   const handleEdit = (record) => {
     reset(record);
-    console.log(record);
-    setIsModalVisible(true); // Modal oynasini ochish
+    setIsModalVisible(true); 
+
+    const newData = {
+      address: record?.address,
+      name: record?.name,
+      phone: record?.phone
+    }
+
+    editData(record?.id, newData)
   };
 
   const handleCancel = () => {
-    setIsModalVisible(false); // Modal oynasini yopish
+    setIsModalVisible(false); 
   };
 
   const handleDelete = (id) => {
-    console.log(id);
+    deleteData(id)
   };
 
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
+      title: "№",
+      render: (_, __, ind) => ind + 1,
+      key: "index",
     },
     {
       title: "Nomi",
       dataIndex: "name",
       key: "name",
-      render: (_, record) => (
-        <Link to={`/shops/${record?.id}`} className="text-blue-500 underline">
-          {record?.name}
-        </Link>
-      ),
+      render: (_, record) => record?.name
     },
     {
       title: "Manzili",
@@ -101,7 +103,8 @@ const ShoppingTable = ({data}) => {
         columns={columns}
         dataSource={data}
         bordered
-        pagination={{ pageSize: 5 }}
+        loading={loading}
+        pagination={{ pageSize: 10 }}
         onRow={(record) => ({
           onClick: (event) => {
             if (!event.target.closest("button")) {
