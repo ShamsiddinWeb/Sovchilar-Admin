@@ -1,8 +1,12 @@
 import { useState } from "react";
 import CRangePicker from "../../../../components/RangePicker";
 import PrevBtn from "../../../../components/PrevBtn";
+import useFetch from "../../../../hooks/reqFetch";
+import { useParams } from "react-router-dom";
 
-const Header = ({ data }) => {
+const Header = () => {
+  const { id } = useParams();
+  const { data } = useFetch(`/api/stores/${id}`);
   const [dates, setDates] = useState([null, null]);
 
   return (

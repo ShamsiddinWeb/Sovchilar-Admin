@@ -106,6 +106,7 @@ const ShoppingTable = ({loading, data, editData, deleteData}) => {
         loading={loading}
         pagination={{ pageSize: 10 }}
         onRow={(record) => ({
+          style: { cursor: 'pointer' },
           onClick: (event) => {
             if (!event.target.closest("button")) {
               navigate(`/shops/${record?.id}`);
