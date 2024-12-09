@@ -2,28 +2,19 @@ import { Button } from "antd";
 import React, { useState } from "react";
 import ModalComponent from "../../components/Modal";
 import useGetData from "../../hooks/useGetData";
-import { Input } from "antd";
 import AddReadyProduct from "./components/AddReadyProduct";
 import EditReadyProduct from "./components/EditReadyProduct";
 import MyTable from "./components/Table";
-const { Search } = Input;
 
 const ReadyPrduct = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formType, setFormType] = useState(null);
   const [editReadyProductData, setEditReadyProductData] = useState(null);
-  const [search, setSearch] = useState(null);
 
   const { data, loading, refetch } = useGetData("api/conserve-type");
  
 
-  const filteredData = data?.filter((item) => {
-    if (search?.length > 2) {
-      return item?.name?.toLowerCase().includes(search?.toLowerCase());
-    } else {
-      return item;
-    }
-  });
+  
   const showModal = (type) => {
     setFormType(type);
     setIsModalOpen(true);
@@ -68,19 +59,13 @@ const ReadyPrduct = () => {
       <div className="flex justify-between items-center">
         <div>Tayyor mahsulotlar</div>
         <div className="flex gap-4">
-          <Search
-            placeholder="Tayyor mahsulot qidirish"
-            onChange={handleChange}
-            value={search}
-            enterButton
-          />
           <Button type="primary" onClick={() => showModal("add")}>
             Tayyor mahsulot qo'shish
           </Button>
         </div>
       </div>
       <MyTable
-        data={filteredData}
+        data={data}
         loading={loading}
         refetch={refetch}
         showModal={showModal}

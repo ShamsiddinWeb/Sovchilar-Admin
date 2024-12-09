@@ -8,9 +8,17 @@ import {
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import api from "../../../../../../axios";
+import { useState } from "react";
 
 const HistoryTable = ({loading, data, refetch}) => {
-  
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 5,
+      });
+    
+      const handleTableChange = (pagination) => {
+        setPagination(pagination); // Pagination holatini yangilash
+      };
 
   const handleDelete = async (id) => {
     try {
@@ -26,7 +34,7 @@ const HistoryTable = ({loading, data, refetch}) => {
     {
       title: "No",
       dataIndex: "no",
-      render: (_, __, index) => index + 1, 
+      render: (_, __, index) => index + 1 + (pagination.current - 1) * pagination.pageSize, 
     },
     {
       title: "Nomi",
@@ -83,6 +91,7 @@ const HistoryTable = ({loading, data, refetch}) => {
         dataSource={data}
         loading={loading}
         pagination={{ pageSize: 5 }}
+        onChange={handleTableChange}
         rowKey={(record) => record.id}
       />
     </div>

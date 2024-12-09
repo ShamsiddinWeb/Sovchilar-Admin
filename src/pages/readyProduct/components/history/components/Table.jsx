@@ -7,19 +7,22 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
-import api from "../../../../../axios";
+import api from "../../../../../../axios";
+import { useState } from "react";
 
-const SingleReadyProductTable = ({loading, data, showModal, setSingleEditCategoryData, refetch}) => {
-  
+const HistoryTable = ({loading, data, refetch}) => {
+    const [pagination, setPagination] = useState({
+        current: 1,
+        pageSize: 5,
+      });
+    
+      const handleTableChange = (pagination) => {
+        setPagination(pagination); // Pagination holatini yangilash
+      };
 
-  const handleEdit = (record) => {
-    setSingleEditCategoryData(record)
-    showModal("edit")
-  };
- 
   const handleDelete = async (id) => {
     try {
-      await api.delete(`api/stock-history/${id}`);
+      await api.delete(`api/products/${id}`);
       toast.success("Mahsulot muvaffaqiyatli o'chirildi!");
       refetch()
     } catch (error) {
@@ -31,12 +34,12 @@ const SingleReadyProductTable = ({loading, data, showModal, setSingleEditCategor
     {
       title: "No",
       dataIndex: "no",
-      render: (_, __, index) => index + 1, 
+      render: (_, __, index) => index + 1 + (pagination.current - 1) * pagination.pageSize, 
     },
     {
       title: "Nomi",
-      dataIndex: "name",
-      render: (text) => <strong>{text?.category}</strong>,
+      dataIndex: "conserveType",
+      render: (text) => <strong>{text?.conserveType}</strong>,
     },
     {
       title: "Miqdori",
@@ -44,26 +47,18 @@ const SingleReadyProductTable = ({loading, data, showModal, setSingleEditCategor
     },
     {
       title: "Narxi (so'm)",
-      dataIndex: "price"
-    },
-    {
-      title: "Umumiy narxi (so'm)",
-      dataIndex: "totalPrice"
+      dataIndex: "conserveType",
+      render: (text) => <div>{text?.price}</div>,
     },
     {
       title: "Kelgan vaqti",
-      dataIndex: "createdAt"
+      dataIndex: "conserveType",
+      render: (text) => <div>{text?.createdAt}</div>,
     },
     {
       title: "Amallar",
       render: (_, record) => (
         <div>
-          <Button
-            type="link"
-            icon={<EditOutlined style={{ color: "green" }} />}
-            onClick={() => handleEdit(record)}
-          ></Button>
-
           <Popconfirm
             title="Mahsulotni o'chirish"
             description="Siz ushbu mahsulotni o'chirishga aminmisiz?"
@@ -86,8 +81,6 @@ const SingleReadyProductTable = ({loading, data, showModal, setSingleEditCategor
     },
   ];
 
-  
-
   return (
     <div style={{ margin: "20px", overflow: "auto" }}>
       <Table
@@ -96,10 +89,11 @@ const SingleReadyProductTable = ({loading, data, showModal, setSingleEditCategor
         dataSource={data}
         loading={loading}
         pagination={{ pageSize: 5 }}
+        onChange={handleTableChange}
         rowKey={(record) => record.id}
       />
     </div>
   );
 };
 
-export default SingleReadyProductTable;
+export default HistoryTable;

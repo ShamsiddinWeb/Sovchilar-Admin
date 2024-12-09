@@ -2,12 +2,26 @@ import React from "react";
 import { Input } from "antd";
 import { Controller } from "react-hook-form";
 
-const InputField = ({ control, name, label, placeholder, type, rules, error }) => {
+const InputField = ({
+  control,
+  name,
+  label,
+  placeholder,
+  type,
+  rules,
+  error,
+  className,
+}) => {
   return (
     <div className="mb-4">
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
-        {label}
-      </label>
+      {label && (
+        <label
+          htmlFor={name}
+          className="block text-sm font-medium text-gray-700"
+        >
+          {label}
+        </label>
+      )}
       <Controller
         name={name}
         control={control}
@@ -19,7 +33,7 @@ const InputField = ({ control, name, label, placeholder, type, rules, error }) =
               type={type}
               id={name}
               placeholder={placeholder}
-              className={`mt-2 `}
+              className={className || "w-full"}
               status={error && "error"}
             />
             {error && (

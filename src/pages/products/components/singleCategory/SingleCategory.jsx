@@ -55,7 +55,7 @@ const SingleCategory = () => {
         )}
       </ModalComponent>
       <div className="flex justify-between items-center">
-        <PrevBtn text="Kategoriya"></PrevBtn>
+        <PrevBtn text="Omborga qaytish"></PrevBtn>
         <div className="flex gap-4">
           
           <Button type="primary" onClick={() => navigate(`/categories/history/${id}`)}>
