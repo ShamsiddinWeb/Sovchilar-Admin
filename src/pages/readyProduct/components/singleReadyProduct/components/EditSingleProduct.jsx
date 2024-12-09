@@ -7,31 +7,30 @@ import SingleDatePickerField from "../../../../../components/SingleDatePicker";
 import { useParams } from "react-router-dom";
 import api from "../../../../../../axios";
 
-const EditSingleCategory = ({ onModalClose, editSingleCategoryData, refetch }) => {
+const EditSingleReadyProduct = ({ onModalClose, editSingleReadyProductData, refetch}) => {
   const { control, handleSubmit, formState: { errors }, reset } = useForm();
   const {id} = useParams()
+  
   useEffect(() => {
-    if (editSingleCategoryData) {
+    if (editSingleReadyProductData) {
       reset({
-        price: editSingleCategoryData?.price,
-        createdAt: editSingleCategoryData?.createdAt,
-        quantity: editSingleCategoryData?.quantity,
+        createdAt: editSingleReadyProductData?.createdAt,
+        quantity: editSingleReadyProductData?.readyConserves[0]?.quantity,
       });
     }
-  }, [editSingleCategoryData]);
+  }, [editSingleReadyProductData]);
   
 
   const onSubmit = async (data) => {
 
     const newData = {
-      price: +data?.price,
       quantity: +data?.quantity,
       createdAt: data?.createdAt,
-      categoryId: id
+      conserveTypeId: id
     }
     try {
       // API'ga ma'lumotlarni yuborish
-      const response = await api.patch(`/api/products/${editSingleCategoryData?.id}`, newData);
+      const response = await api.patch(`/api/ready-conserves/${editSingleReadyProductData?.readyConserves[0]?.id}`, newData);
       
       if (response?.statusText == "OK" || response?.status == 200 || response?.status == 201) {
         toast.success("Mahsulot muvaffaqiyatli o'zgartirildi!");
@@ -47,18 +46,7 @@ const EditSingleCategory = ({ onModalClose, editSingleCategoryData, refetch }) =
   return (
     <form className="mt-[20px]" onSubmit={handleSubmit(onSubmit)}>
       {/* Kategoriya nomi maydoni */}
-      <InputField
-        control={control}
-        name="price"
-        label="Mahsulot Narxi"
-        placeholder="Masalan, 20000"
-        type="number"
-        rules={{
-          required: "Mahsulot narxini kiriting"
-        }}
-        error={errors?.category} // Xatolikni ko'rsatish
-      />
-
+      
       {/* Miqdor turi maydoni */}
       <div className="mb-4">
      
@@ -93,4 +81,4 @@ const EditSingleCategory = ({ onModalClose, editSingleCategoryData, refetch }) =
   );
 };
 
-export default EditSingleCategory;
+export default EditSingleReadyProduct;

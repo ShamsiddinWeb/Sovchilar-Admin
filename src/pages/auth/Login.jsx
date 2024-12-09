@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import logo from "../../assets/logo.png";
 
 const Login = () => {
   const {
@@ -46,8 +47,8 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-700 mb-4">
-          Login
+        <h2 className="text-2xl font-bold flex justify-center text-gray-700 mb-10 " >
+          <img className="w-[130px] h-auto" src={logo} alt="aqvo logo" />
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>

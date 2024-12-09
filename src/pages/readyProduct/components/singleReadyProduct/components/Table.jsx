@@ -6,12 +6,11 @@ import {
   EditOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import api from "../../../../axios";
+import api from "../../../../../../axios";
 import { useState } from "react";
 
-const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) => {
+const SingleReadyProductTable = ({loading, data, showModal, setEditSingleReadyProductData, refetch}) => {
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 5,
@@ -21,23 +20,20 @@ const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) =
     setPagination(pagination); // Pagination holatini yangilash
   };
 
-  const navigate = useNavigate()
-
   const handleEdit = (record) => {
-    setEditReadyProductData(record)
+    setEditSingleReadyProductData(record)
     showModal("edit")
   };
  
   const handleDelete = async (id) => {
     try {
-      await api.delete(`api/conserve-type/${id}`);
+      await api.delete(`api/stock-history/${id}`);
       toast.success("Mahsulot muvaffaqiyatli o'chirildi!");
       refetch()
     } catch (error) {
       toast.error("Mahsulotni o'chirishda xatolik yuz berdi!");
     }
   };
-  
 
   const columns = [
     {
@@ -48,15 +44,20 @@ const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) =
     {
       title: "Nomi",
       dataIndex: "conserveType",
-      render: (text) => <strong>{text}</strong>,
     },
     {
-      title: "Soni",
-      dataIndex: "count"
+      title: "Miqdori",
+      dataIndex: "readyConserves",
+      render: (text) => <div>{text[0]?.quantity}</div>,
     },
     {
-      title: "Narxi",
+      title: "Narxi (so'm)",
       dataIndex: "price"
+    },
+    {
+      title: "Kelgan vaqti",
+      dataIndex: "readyConserves",
+      render: (text) => <div>{text[0]?.createdAt}</div>,
     },
     {
       title: "Amallar",
@@ -67,24 +68,6 @@ const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) =
             icon={<EditOutlined style={{ color: "green" }} />}
             onClick={() => handleEdit(record)}
           ></Button>
-
-          <Popconfirm
-            title="Mahsulotni o'chirish"
-            description="Siz ushbu mahsulotni o'chirishga aminmisiz?"
-            icon={
-              <QuestionCircleOutlined
-                style={{
-                  color: "red",
-                }}
-              />
-            }
-            onConfirm={() => handleDelete(record?.id)}
-          >
-            <Button
-              type="link"
-              icon={<DeleteOutlined style={{ color: "red" }} />}
-            ></Button>
-          </Popconfirm>
         </div>
       ),
     },
@@ -96,23 +79,15 @@ const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) =
     <div style={{ margin: "20px", overflow: "auto" }}>
       <Table
         bordered
-        columns={columns}
+        columns={columns} 
         dataSource={data}
         loading={loading}
         onChange={handleTableChange}
         pagination={{ pageSize: 5 }}
-        onRow={(record) => ({
-          style: { cursor: 'pointer' },
-          onClick: (event) => {
-            if (!event.target.closest("button")) {
-              navigate(`/ready-product/${record?.id}`)
-            }
-          },
-        })}
-        rowKey={(record) => record.id}
+        rowKey={(record) => record.id}  
       />
     </div>
   );
 };
 
-export default MyTable;
+export default SingleReadyProductTable;

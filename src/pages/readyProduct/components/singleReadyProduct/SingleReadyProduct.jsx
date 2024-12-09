@@ -1,25 +1,25 @@
 import React, { useState } from "react";
-import { Button } from "antd";
-import PrevBtn from "../../../../components/PrevBtn";
-import SingleCategoryTable from "./components/Table";
-import ModalComponent from "../../../../components/Modal";
-import AddSingleCategory from "./components/AddSingleCategory";
-import EditSingleCategory from "./components/EditSingleCategory";
-import useGetData from "../../../../hooks/useGetData";
 import { useNavigate, useParams } from "react-router-dom";
-import CRangePicker from "../../../../components/RangePicker";
+import PrevBtn from "../../../../components/PrevBtn";
+import { Button } from "antd";
+import SingleReadyProductTable from "./components/Table";
+import ModalComponent from "../../../../components/Modal";
+import ReadyProductInForm from "./components/ReadyProductInForm";
+import AddSingleReadyProduct from "./components/AddSingleProduct";
+import EditSingleReadyProduct from "./components/EditSingleProduct";
+import useGetData from "../../../../hooks/useGetData";
 
-const SingleCategory = () => {
+const SingleReadyProduct = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formType, setFormType] = useState(null);
-  const [editSingleCategoryData, setSingleEditCategoryData] = useState(null);
+  const [editSingleReadyProductData, setEditSingleReadyProductData] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate()
+
+  const { data, loading, refetch } = useGetData(
+    `api/conserve-type/${id}`
+  );
   
-  // const { data, loading, refetch } = useGetData(
-  //   (dates[0] && dates[1]) ?  `api/stock-history/category/${id}?from=${dates[0]}&to=${dates[1]}` : `api/stock-history/category/${id}`
-  // );
-  const { data, loading, refetch } = useGetData(`api/categories/${id}`);
   const showModal = (type) => {
     setFormType(type);
     setIsModalOpen(true);
@@ -32,6 +32,7 @@ const SingleCategory = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  
   return (
     <div>
       <ModalComponent
@@ -43,38 +44,40 @@ const SingleCategory = () => {
         }
       >
         {formType === "add" ? (
-          <AddSingleCategory refetch={refetch} onModalClose={handleCancel} />
+          <AddSingleReadyProduct refetch={refetch} onModalClose={handleCancel} />
         ) : formType === "edit" ? (
-          <EditSingleCategory
+          <EditSingleReadyProduct
             refetch={refetch}
-            editSingleCategoryData={editSingleCategoryData}
+            editSingleReadyProductData={editSingleReadyProductData}
             onModalClose={handleCancel}
           />
-        ) : (
-          <div></div>
-        )}
+        ) :formType === "ready" ? (
+          <ReadyProductInForm onModalClose={handleCancel}/>
+        ): <div></div> }
       </ModalComponent>
       <div className="flex justify-between items-center">
-        <PrevBtn text="Omborga qaytish"></PrevBtn>
+        <PrevBtn text="Tayyor mahsulotlar"></PrevBtn>
         <div className="flex gap-4">
-          
-          <Button type="primary" onClick={() => navigate(`/categories/history/${id}`)}>
+          <Button type="primary" onClick={() => navigate(`/ready-product/history/${id}`)}>
             Mahsulotlar tarixini ko'rish
+          </Button>
+          <Button type="primary" onClick={() => showModal("ready") }>
+            Mahsulotni tayyorlashda qushiladigan mahsulotlar
           </Button>
           <Button type="primary" onClick={() => showModal("add")}>
             Mahsulot qo'shish
           </Button>
         </div>
       </div>
-      <SingleCategoryTable
-        data={data?.products}
+      <SingleReadyProductTable
+        data={data ? [data] : []}
         refetch={refetch}
         loading={loading}
         showModal={showModal}
-        setSingleEditCategoryData={setSingleEditCategoryData}
+        setEditSingleReadyProductData={setEditSingleReadyProductData}
       />
     </div>
   );
 };
 
-export default SingleCategory;
+export default SingleReadyProduct;

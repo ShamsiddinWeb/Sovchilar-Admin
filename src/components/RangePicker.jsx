@@ -1,14 +1,13 @@
 import { DatePicker } from "antd";
-import moment from "moment";
 const { RangePicker } = DatePicker;
 
 const CRangePicker = ({ setDates }) => {
-  const handleDateChange = (dates, dateStrings) => {
+  const handleDateChange = (dates) => {
 
     if (dates) {
       const [startDate, endDate] = dates;
       // Moment.js yordamida lokal formatda saqlash
-      setDates([startDate.format("YYYY-MM-DD HH:mm"), endDate.format("YYYY-MM-DD HH:mm")]);
+      setDates([startDate.format("YYYY-MM-DD"), endDate.format("YYYY-MM-DD")]);
     } else {
       setDates([null, null]);
     }
@@ -18,7 +17,7 @@ const CRangePicker = ({ setDates }) => {
     <RangePicker 
       onChange={handleDateChange} 
       showTime 
-      format="YYYY-MM-DD HH:mm" 
+      format="YYYY-MM-DD" 
     />
   );
 };

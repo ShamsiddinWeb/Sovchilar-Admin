@@ -1,6 +1,6 @@
 export const unitOptions = [
-    { value: 'KG', label: 'Kilogramm' },
-    { value: 'DONA', label: 'Dona' },
-    { value: 'PACHKA', label: 'Pachka' },
-    { value: 'LITR', label: 'Litr' },
+    { id: 'KG', category: 'Kilogramm' },
+    { id: 'DONA', category: 'Dona' },
+    { id: 'PACHKA', category: 'Pachka' },
+    { id: 'LITR', category: 'Litr' },
   ];

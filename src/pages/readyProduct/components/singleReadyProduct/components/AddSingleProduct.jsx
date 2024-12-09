@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import { Button} from "antd";
 import { useForm} from "react-hook-form";
 import { toast } from "react-toastify";
-import api from "../../../../axios";
-import InputField from "../../../components/InputField";
+import InputField from "../../../../../components/InputField";
+import SingleDatePickerField from "../../../../../components/SingleDatePicker";
+import { useParams } from "react-router-dom";
+import api from "../../../../../../axios";
 
-const AddReadyProduct = ({ onModalClose, refetch }) => {
+const AddSingleReadyProduct = ({ onModalClose, refetch }) => {
   const {
     control,
     handleSubmit,
@@ -13,18 +15,21 @@ const AddReadyProduct = ({ onModalClose, refetch }) => {
     reset,
   } = useForm();
 
+  const {id} = useParams()
+
   useEffect(() => {
     reset();
   }, [onModalClose]);
 
   const onSubmit = async (data) => {
+    const newData = {
+      quantity: +data?.quantity,
+      conserveTypeId: id,
+      createdAt: data?.createdAt
+    }
+    
     try {
-      // API'ga ma'lumotlarni yuborish
-      const newData = {
-          price: +data?.price,
-          conserveType: data?.conserveType
-      }
-      const response = await api.post("/api/conserve-type", newData);
+      const response = await api.post("/api/ready-conserves", newData);
 
       if (response?.status === 200 || response?.status === 201) {
         toast.success("Mahsulot muvaffaqiyatli qo'shildi!");
@@ -42,33 +47,25 @@ const AddReadyProduct = ({ onModalClose, refetch }) => {
       {/* Kategoriya nomi maydoni */}
       <InputField
         control={control}
-        name="conserveType"
-        label="Mahsulot Nomi"
-        placeholder="Masalan, Tushonka"
-        type="text"
+        name="quantity"
+        label="Mahsulot miqdori"
+        placeholder="Masalan, 200"
+        type="number"
         rules={{
-          required: "Mahsulot nomi maydoni talab qilinadi",
-          minLength: {
-            value: 2,
-            message:
-              "Mahsulot nomi kamida 2 ta belgidan iborat bo'lishi kerak",
-          },
+          required: "Mahsulot miqdori maydoni talab qilinadi",
         }}
-        error={errors?.conserveType} // Xatolikni ko'rsatish
+        error={errors?.quantity} // Xatolikni ko'rsatish
       />
 
       {/* Miqdor turi maydoni */}
       <div className="mb-4">
-      <InputField
+      <SingleDatePickerField
         control={control}
-        name="price"
-        label="Mahsulot narxi"
-        placeholder="Mahsulot narxini kiriting"
-        type="number"
-        rules={{
-          required: "Mahsulot narxi maydoni talab qilinadi"
-        }}
-        error={errors?.price} // Xatolikni ko'rsatish
+        name="createdAt"
+        label="Mahsulot keltirilgan sana"
+        placeholder="Sanani tanlang"
+        rules={{ required: "Sanani kiriting" }}
+        error={errors?.createdAt}
       />
         
       </div>
@@ -80,4 +77,4 @@ const AddReadyProduct = ({ onModalClose, refetch }) => {
   );
 };
 
-export default AddReadyProduct;
+export default AddSingleReadyProduct;
