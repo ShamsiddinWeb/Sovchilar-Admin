@@ -25,7 +25,7 @@ const { Header, Sider, Content } = Layout;
 
 const RootLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { clearUser, accessToken, user } = useStore(); // user obyektini olish
+  const { clearUser, user } = useStore(); // user obyektini olish
   const navigate = useNavigate();
   const {
     token: { colorBgContainer, borderRadiusLG },

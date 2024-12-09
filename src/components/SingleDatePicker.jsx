@@ -16,9 +16,7 @@ const SingleDatePickerField = ({
 }) => {
   return (
     <div className="mb-4">
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700">
-        {label}
-      </label>
+      {label && <label className="block text-gray-700 font-medium mb-1">{label}</label>}
       <Controller
         name={name}
         control={control}
