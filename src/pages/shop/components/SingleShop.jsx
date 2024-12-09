@@ -1,19 +1,20 @@
-
 import Header from "./sold-product/Header";
 import PaymeTable from "./sold-product/PaymeTable";
 import SoldProduct from "./sold-product/SingleShopingTable";
+import useFetch from "../../../hooks/reqFetch";
+import { useParams } from "react-router-dom";
 
 const SingleShop = () => {
+  const { id } = useParams();
+  const { data } = useFetch(`/api/stores/${id}`);
 
   return (
     <>
-      <Header data={data}/>
+      <Header data={data} />
       <SoldProduct />
-      <PaymeTable />
+      <PaymeTable data={data} />
     </>
   );
 };
 
 export default SingleShop;
-
-const data = {title: "Andalus", address: "Yunusobod 19-kvartal 29-dom 54-xonadon", phone: "+998 (77) 777-77-77"}

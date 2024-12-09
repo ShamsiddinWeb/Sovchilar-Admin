@@ -37,7 +37,26 @@ const useFetch = (url, dependencies = []) => {
       // Yangi ma'lumot qo'shilgandan so'ng GET so'rovni qayta ishga tushiramiz
       await getData();
     } catch (err) {
-      setError(err.message || "POST qilishda xato yuz berdi");
+      setError(err.message || "Qo'shishda qilishda xato yuz berdi");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Delete so'rovni amalga oshirish uchun funksiya
+  const deleteData = async (id) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await api.delete(`${url}/${id}`);
+      if (response?.status !== 200) {
+        throw new Error("O'chirishda xatosi yuz berdi!");
+      }
+      // Yangi ma'lumot qo'shilgandan so'ng GET so'rovni qayta ishga tushiramiz
+      await getData();
+    } catch (err) {
+      setError(err.message || "O'chirishda qilishda xato yuz berdi");
     } finally {
       setLoading(false);
     }
@@ -49,14 +68,14 @@ const useFetch = (url, dependencies = []) => {
     setError(null);
 
     try {
-      const response = await api.put(`${url}/${id}`, updatedData);
+      const response = await api.patch(`${url}/${id}`, updatedData);
       if (response?.status !== 200) {
         throw new Error("EDIT xatosi yuz berdi!");
       }
       // Ma'lumot yangilangandan so'ng GET so'rovni qayta ishga tushiramiz
       await getData();
     } catch (err) {
-      setError(err.message || "EDIT qilishda xato yuz berdi");
+      setError(err.message || "Tahrirlashda qilishda xato yuz berdi");
     } finally {
       setLoading(false);
     }
@@ -68,7 +87,7 @@ const useFetch = (url, dependencies = []) => {
     // dependencies orqali qayta ishga tushiriladi
   }, dependencies);
 
-  return { data, loading, error, postData, editData, getData };
+  return { data, loading, error, postData, editData, getData, deleteData };
 };
 
 export default useFetch;
