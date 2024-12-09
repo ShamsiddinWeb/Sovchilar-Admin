@@ -27,7 +27,7 @@ const SingleDatePickerField = ({
               {...field}
               onChange={(date) =>
                 field.onChange(
-                  date ? dayjs(date).tz("Asia/Tashkent").format() : null
+                  date ? dayjs(date).tz("Asia/Tashkent").toISOString() : null
                 )
               }
               placeholder={placeholder}
