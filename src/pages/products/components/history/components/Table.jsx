@@ -3,7 +3,6 @@ import { Table, Button, Popconfirm } from "antd";
 import "antd/dist/reset.css"; 
 import {
   DeleteOutlined,
-  EditOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
@@ -13,7 +12,7 @@ import { useState } from "react";
 const HistoryTable = ({loading, data, refetch}) => {
     const [pagination, setPagination] = useState({
         current: 1,
-        pageSize: 5,
+        pageSize: 10,
       });
     
       const handleTableChange = (pagination) => {
@@ -90,7 +89,7 @@ const HistoryTable = ({loading, data, refetch}) => {
         columns={columns} 
         dataSource={data}
         loading={loading}
-        pagination={{ pageSize: 5 }}
+        pagination={{ pageSize: 10 }}
         onChange={handleTableChange}
         rowKey={(record) => record.id}
       />
