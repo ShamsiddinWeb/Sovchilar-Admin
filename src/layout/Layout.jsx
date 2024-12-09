@@ -140,7 +140,7 @@ const RootLayout = () => {
                 icon={<UserOutlined />}
                 onClick={showModal}
               />
-              <span>Foydalanuvchi</span>
+              <span>Profil</span>
             </div>
             <Button icon={<LogoutOutlined />} onClick={handleLogout}>
               Chiqish
