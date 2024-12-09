@@ -19,6 +19,7 @@ import Attendance from "./pages/employment/Components/Attendance";
 import History from "./pages/products/components/history/History";
 import HistoryReadyProduct from "./pages/readyProduct/components/history/History";
 import SingleReadyProduct from "./pages/readyProduct/components/singleReadyProduct/SingleReadyProduct";
+import HistoryShop from "./pages/shop/components/history/HistoryShop";
 
 function App() {
   const {accessToken, clearUser} = useStore()
@@ -55,6 +56,7 @@ function App() {
           <Route path="/categories/history/:id" element={<History />} />
           <Route path="/shops" element={<Shops />} />
           <Route path="/shops/:id" element={<SingleShop />} />
+          <Route path="/shops/history/:id" element={<HistoryShop />} />
           <Route path="/employees" element={<Employees />} />
           <Route path="/employees/attendance" element={<Attendance />} />
           <Route path="/ready-product" element={<ReadyProduct />} />
