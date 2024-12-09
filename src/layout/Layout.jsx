@@ -9,23 +9,19 @@ import { HiOutlineUsers } from "react-icons/hi2";
 import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { BsShopWindow } from "react-icons/bs";
 import { AiOutlineProduct } from "react-icons/ai";
-import { FaBoxOpen, FaUserCircle } from "react-icons/fa";
-import { Button, Layout, Menu, Modal, Form, Input, theme, Avatar } from "antd";
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { FaBoxOpen } from "react-icons/fa";
+import { Button, Layout, Menu, Avatar, theme } from "antd";
+import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useStore } from "../store/store";
+import EditLoginPasswordModal from "./eddModal";
 
 const { Header, Sider, Content } = Layout;
 
 const RootLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { clearUser, user } = useStore(); // user obyektini olish
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { clearUser, user } = useStore();
   const navigate = useNavigate();
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -33,8 +29,6 @@ const RootLayout = () => {
 
   const location = useLocation();
   const { id } = useParams();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const getSelectedKeys = () => {
     switch (location?.pathname) {
@@ -50,8 +44,6 @@ const RootLayout = () => {
         return ["3"];
       case `/shops/${id}`:
         return ["3"];
-      case `/shops/history/${id}`:
-        return ["3"];
       case "/employees":
         return ["4"];
       case "/employees/attendance":
@@ -60,7 +52,7 @@ const RootLayout = () => {
         return ["5"];
       case `/ready-product/${id}`:
         return ["5"];
-        case `/ready-product/history/${id}`:
+      case `/ready-product/history/${id}`:
         return ["5"];
       default:
         return ["1"];
@@ -72,23 +64,17 @@ const RootLayout = () => {
     clearUser();
   };
 
-  const showProfileModal = () => {
-    setIsModalOpen(true);
+  const showModal = () => {
+    setIsModalVisible(true);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleSave = (values) => {
-    console.log("Profil ma'lumotlari:", values);
-    setIsModalOpen(false);
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
   };
 
   return (
     <Layout className="h-screen">
       <Sider theme="light" trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
         <Link to="/" className="flex justify-center py-5 pb-10">
           <img className="w-3/5" src={logo} alt="aqvo logo" />
         </Link>
@@ -151,11 +137,10 @@ const RootLayout = () => {
             <div className="flex items-center gap-2">
               <Avatar
                 style={{ backgroundColor: "primary", cursor: "pointer" }}
-                onClick={showProfileModal}
                 icon={<UserOutlined />}
+                onClick={showModal}
               />
-              <span>{user?.name || "Foydalanuvchi"}</span>{" "}
-              {/* Foydalanuvchi ismi */}
+              <span>Foydalanuvchi</span>
             </div>
             <Button icon={<LogoutOutlined />} onClick={handleLogout}>
               Chiqish
@@ -177,42 +162,11 @@ const RootLayout = () => {
         </Content>
       </Layout>
 
-      {/* Modal */}
-      <Modal
-        title="Profilni tahrirlash"
-        open={isModalOpen}
-        onCancel={handleCancel}
-        footer={null}
-      >
-        <Form layout="vertical" onFinish={handleSave}>
-          <Form.Item
-            label="Ism"
-            name="name"
-            rules={[{ required: true, message: "Ismni kiriting" }]}
-          >
-            <Input placeholder="Ismingizni kiriting" />
-          </Form.Item>
-          <Form.Item
-            label="Login"
-            name="login"
-            rules={[{ required: true, message: "Loginni kiriting" }]}
-          >
-            <Input placeholder="Loginni kiriting" />
-          </Form.Item>
-          <Form.Item
-            label="Parol"
-            name="password"
-            rules={[{ required: true, message: "Parolni kiriting" }]}
-          >
-            <Input.Password placeholder="Parolni kiriting" />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" block>
-              Saqlash
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
+      <EditLoginPasswordModal
+        visible={isModalVisible}
+        onClose={handleCloseModal}
+        userId={user?.id}
+      />
     </Layout>
   );
 };
