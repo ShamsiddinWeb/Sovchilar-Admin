@@ -16,7 +16,6 @@ const CRangePicker = ({ setDates }) => {
   return (
     <RangePicker 
       onChange={handleDateChange} 
-      showTime 
       format="YYYY-MM-DD" 
     />
   );
