@@ -9,7 +9,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import api from "../../../../../../axios";
 
-const ReadyProductInForm = ({ onModalClose }) => {
+const ReadyProductInForm = ({ onModalClose, refetch }) => {
   const {
     control,
     handleSubmit,
@@ -33,7 +33,7 @@ const ReadyProductInForm = ({ onModalClose }) => {
     }));
   }, [data]);
 
-  console.log(data);
+  
   
 
   useEffect(() => {
@@ -57,6 +57,7 @@ const ReadyProductInForm = ({ onModalClose }) => {
       if (response?.status === 200 || response?.status === 201) {
         toast.success("Ma'lumot muvaffaqiyatli saqlandi!");
         onModalClose();
+        refetch()
         reset();
       }
     } catch (error) {

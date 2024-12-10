@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaChartBar, FaDollarSign, FaShoppingCart } from "react-icons/fa";
+import ModalComponent from "../../components/Modal";
 
 const Analytics = () => {
   const data = [
@@ -35,13 +36,13 @@ const Analytics = () => {
         termoPlonka: 4,
       },
     },
-    // Qo'shimcha oylik ma'lumotlar kiritilishi mumkin
+    // Add more monthly data if needed
   ];
 
   const [productType, setProductType] = useState("");
   const [productCount, setProductCount] = useState(0);
   const [usedResources, setUsedResources] = useState(null);
-  const [isReportModalOpen, setIsReportModalOpen] = useState(false); // State to manage modal visibility
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
   const umumiyHisobla = () => {
     const umumiy = data.reduce(
@@ -123,42 +124,41 @@ const Analytics = () => {
         </div>
       </div>
 
-      {/* Modal for Monthly Report */}
-      {isReportModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded shadow w-3/4 md:w-1/2">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Oyma-Oy Hisobot</h2>
-            <div className="bg-white rounded shadow overflow-auto max-h-64 mb-4">
-              <table className="table-auto w-full">
-                <thead>
-                  <tr className="bg-gray-200 text-gray-600 sticky top-0">
-                    <th className="px-4 py-2">Oy</th>
-                    <th className="px-4 py-2">Sotilgan</th>
-                    <th className="px-4 py-2">Tushum</th>
-                    <th className="px-4 py-2">Ishlab Chiqarilgan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((item, index) => (
-                    <tr key={index} className="border-t text-gray-700 hover:bg-gray-100">
-                      <td className="px-4 py-2">{item.oy}</td>
-                      <td className="px-4 py-2">{item.sotilgan} dona</td>
-                      <td className="px-4 py-2">{item.tushum} so'm</td>
-                      <td className="px-4 py-2">{item.ishlabChiqarilgan} dona</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <button
-              onClick={() => setIsReportModalOpen(false)}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-            >
-              Yopish
-            </button>
-          </div>
+      <ModalComponent
+        title="Oylik Hisobot"
+        isOpen={isReportModalOpen}
+        onCancel={() => setIsReportModalOpen(false)}
+      >
+        <div className="overflow-auto max-h-64">
+          <table className="table-auto w-full border-collapse border border-gray-200">
+            <thead>
+              <tr className="bg-gray-50 text-gray-600 sticky top-0 text-left">
+                <th className="px-4 py-2 border border-gray-200 font-semibold">Oy</th>
+                <th className="px-4 py-2 border border-gray-200 font-semibold">Sotilgan</th>
+                <th className="px-4 py-2 border border-gray-200 font-semibold">Tushum</th>
+                <th className="px-4 py-2 border border-gray-200 font-semibold">Ishlab Chiqarilgan</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item, index) => (
+                <tr
+                  key={index}
+                  className={`border-t border-gray-200 ${
+                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  } hover:bg-blue-50`}
+                >
+                  <td className="px-4 py-2 border border-gray-200">{item.oy}</td>
+                  <td className="px-4 py-2 border border-gray-200">{item.sotilgan} dona</td>
+                  <td className="px-4 py-2 border border-gray-200">{item.tushum} so'm</td>
+                  <td className="px-4 py-2 border border-gray-200">
+                    {item.ishlabChiqarilgan} dona
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      )}
+      </ModalComponent>
 
       <h2 className="text-xl font-bold text-gray-800 mt-6 mb-4">Resurs Hisobi</h2>
       <div className="bg-white p-4 rounded shadow mb-4">

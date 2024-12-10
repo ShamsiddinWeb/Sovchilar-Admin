@@ -56,10 +56,6 @@ const MyTable = ({showModal, setEditReadyProductData, data, loading, refetch}) =
       render: (text) => <div>{text[0]?.quantity || 0}</div>,
     },
     {
-      title: "Narxi",
-      dataIndex: "price"
-    },
-    {
       title: "Amallar",
       render: (_, record) => (
         <div>

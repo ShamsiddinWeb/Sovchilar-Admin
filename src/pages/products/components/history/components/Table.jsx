@@ -7,23 +7,13 @@ import {
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import api from "../../../../../../axios";
-import { useState } from "react";
 
-const HistoryTable = ({loading, data, refetch}) => {
-    const [pagination, setPagination] = useState({
-        current: 1,
-        pageSize: 10,
-      });
-    
-      const handleTableChange = (pagination) => {
-        setPagination(pagination); // Pagination holatini yangilash
-      };
-
+const HistoryTable = ({ loading, data, refetch, pagination, onPaginationChange }) => {
   const handleDelete = async (id) => {
     try {
       await api.delete(`api/products/${id}`);
       toast.success("Mahsulot muvaffaqiyatli o'chirildi!");
-      refetch()
+      refetch();
     } catch (error) {
       toast.error("Mahsulotni o'chirishda xatolik yuz berdi!");
     }
@@ -33,7 +23,7 @@ const HistoryTable = ({loading, data, refetch}) => {
     {
       title: "No",
       dataIndex: "no",
-      render: (_, __, index) => index + 1 + (pagination.current - 1) * pagination.pageSize, 
+      render: (_, __, index) => index + 1 + (pagination.current - 1) * pagination.pageSize,
     },
     {
       title: "Nomi",
@@ -42,19 +32,19 @@ const HistoryTable = ({loading, data, refetch}) => {
     },
     {
       title: "Miqdori",
-      dataIndex: "quantity"
+      dataIndex: "quantity",
     },
     {
       title: "Narxi (so'm)",
-      dataIndex: "price"
+      dataIndex: "price",
     },
     {
       title: "Umumiy narxi (so'm)",
-      dataIndex: "totalPrice"
+      dataIndex: "totalPrice",
     },
     {
       title: "Kelgan vaqti",
-      dataIndex: "createdAt"
+      dataIndex: "createdAt",
     },
     {
       title: "Amallar",
@@ -63,13 +53,7 @@ const HistoryTable = ({loading, data, refetch}) => {
           <Popconfirm
             title="Mahsulotni o'chirish"
             description="Siz ushbu mahsulotni o'chirishga aminmisiz?"
-            icon={
-              <QuestionCircleOutlined
-                style={{
-                  color: "red",
-                }}
-              />
-            }
+            icon={<QuestionCircleOutlined style={{ color: "red" }} />}
             onConfirm={() => handleDelete(record?.id)}
           >
             <Button
@@ -86,11 +70,15 @@ const HistoryTable = ({loading, data, refetch}) => {
     <div style={{ margin: "20px", overflow: "auto" }}>
       <Table
         bordered
-        columns={columns} 
-        dataSource={data}
+        columns={columns}
+        dataSource={data?.items || []}
         loading={loading}
-        pagination={{ pageSize: 10 }}
-        onChange={handleTableChange}
+        pagination={{
+          current: pagination.current,
+          pageSize: pagination.pageSize,
+          total: data?.total || 0, // API'dan qaytgan umumiy elementlar soni
+        }}
+        onChange={(pagination) => onPaginationChange(pagination)}
         rowKey={(record) => record.id}
       />
     </div>

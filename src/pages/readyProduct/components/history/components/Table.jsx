@@ -3,23 +3,13 @@ import { Table, Button, Popconfirm } from "antd";
 import "antd/dist/reset.css"; 
 import {
   DeleteOutlined,
-  EditOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import api from "../../../../../../axios";
-import { useState } from "react";
 
-const HistoryTable = ({loading, data, refetch}) => {
-    const [pagination, setPagination] = useState({
-        current: 1,
-        pageSize: 10,
-      });
-    
-      const handleTableChange = (pagination) => {
-        setPagination(pagination); // Pagination holatini yangilash
-      };
-
+const HistoryTable = ({loading, data, refetch, pagination, onPaginationChange}) => {
+   
   const handleDelete = async (id) => {
     try {
       await api.delete(`api/products/${id}`);
@@ -44,11 +34,6 @@ const HistoryTable = ({loading, data, refetch}) => {
     {
       title: "Miqdori",
       dataIndex: "quantity"
-    },
-    {
-      title: "Narxi (so'm)",
-      dataIndex: "conserveType",
-      render: (text) => <div>{text?.price}</div>,
     },
     {
       title: "Kelgan vaqti",
@@ -85,11 +70,15 @@ const HistoryTable = ({loading, data, refetch}) => {
     <div style={{ margin: "20px", overflow: "auto" }}>
       <Table
         bordered
-        columns={columns} 
-        dataSource={data}
+        columns={columns}
+        dataSource={data?.items || []}
         loading={loading}
-        pagination={{ pageSize: 10 }}
-        onChange={handleTableChange}
+        pagination={{
+          current: pagination.current,
+          pageSize: pagination.pageSize,
+          total: data?.total || 0, 
+        }}
+        onChange={(pagination) => onPaginationChange(pagination)}
         rowKey={(record) => record.id}
       />
     </div>
