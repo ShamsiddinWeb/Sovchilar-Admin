@@ -16,7 +16,9 @@ const SingleDatePickerField = ({
 }) => {
   return (
     <div className="mb-4">
-      {label && <label className="block text-gray-700 font-medium mb-1">{label}</label>}
+      {label && (
+        <label className="block text-gray-700 font-medium mb-1">{label}</label>
+      )}
       <Controller
         name={name}
         control={control}
@@ -35,9 +37,7 @@ const SingleDatePickerField = ({
               className={`mt-2 w-full ${error ? "border-red-500" : ""}`}
               status={error ? "error" : ""}
               value={
-                field.value
-                  ? dayjs(field.value).tz("Asia/Tashkent")
-                  : null
+                field.value ? dayjs(field.value).tz("Asia/Tashkent") : null
               }
             />
             {error && (

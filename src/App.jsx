@@ -1,25 +1,20 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import RootLayout from "./layout/Layout";
-import Analytics from "./pages/analiytics/Analytics";
-import Employees from "./pages/employment/Employees";
-import Category from "./pages/products/Category";
-import Shops from "./pages/shop/Shops";
 import Login from "./pages/auth/Login";
 import Error404 from "./pages/error404/Error404";
-import SingleShop from "./pages/shop/components/SingleShop";
-import ReadyProduct from "./pages/readyProduct/ReadyProduct";
 import { ToastContainer } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import { useStore } from "./store/store";
 import api from "../axios";
 import { useEffect } from "react";
-import SingleCategory from "./pages/products/components/singleCategory/SingleCategory";
-import Attendance from "./pages/employment/Components/Attendance";
-import History from "./pages/products/components/history/History";
-import HistoryReadyProduct from "./pages/readyProduct/components/history/History";
-import SingleReadyProduct from "./pages/readyProduct/components/singleReadyProduct/SingleReadyProduct";
-import HistoryShop from "./pages/shop/components/history/HistoryShop";
+import NewLead from "./pages/newLead/NewLead";
+import Created from "./pages/created/Created";
+import Married from "./pages/married/Married";
+import Single from "./pages/single/Single";
+// import SingleLead from "./pages/newLead/components/singleLead/SingleLead";
+// import SingleCreated from "./pages/created/components/singleCreated/SingleCreated";
+// import UserDetails from "./pages/created/components/singleCreated/SingleCreated";
 
 function App() {
   const {accessToken, clearUser} = useStore()
@@ -27,8 +22,11 @@ function App() {
 
   const token = async (token) => {
     try {
-      const response = await api.get(`/api/auth/token?accessToken=${token}`);
-      if (!response?.data?.is_valid) {
+      const response = await api.post(`auth/verify`, {
+        accessToken: token
+      });
+      
+      if (!response?.data) {
         navigate("/login");
         clearUser();
       } 
@@ -50,18 +48,12 @@ function App() {
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="/" element={<RootLayout />}>
-          <Route index element={<Analytics />} />
-          <Route path="/categories" element={<Category />} />
-          <Route path="/categories/:id" element={<SingleCategory />} />
-          <Route path="/categories/history/:id" element={<History />} />
-          <Route path="/shops" element={<Shops />} />
-          <Route path="/shops/:id" element={<SingleShop />} />
-          <Route path="/shops/history/:id" element={<HistoryShop />} />
-          <Route path="/employees" element={<Employees />} />
-          <Route path="/employees/attendance" element={<Attendance />} />
-          <Route path="/ready-product" element={<ReadyProduct />} />
-          <Route path="/ready-product/:id" element={<SingleReadyProduct/>} />
-          <Route path="/ready-product/history/:id" element={<HistoryReadyProduct />} />
+          <Route index element={<NewLead />} />
+          {/* <Route path="/lead/:id" element={<SingleLead />} /> */}
+          <Route path="/users-uz/:id" element={<Single />} />
+          <Route path="/created" element={<Created />} />
+          {/* <Route path="/created/:id" element={<UserDetails />} /> */}
+          <Route path="/married" element={<Married />} />
           <Route path="/*" element={<Error404 />} />
         </Route>
       </Routes>

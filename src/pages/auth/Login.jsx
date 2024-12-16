@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-import logo from "../../assets/logo.png";
 
 const Login = () => {
   const {
@@ -20,35 +19,53 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
+    setLoading(true);
+
+    if (!phone || phone.length < 9) {
+      toast.error("Telefon raqam noto'g'ri kiritildi");
+      setLoading(false);
+      return;
+    }
+
     const newData = {
-      phoneNumber: phone,
+      phone: phone,
       password: data?.password,
     };
 
     try {
-      const response = await api.post("api/auth/sign-in", newData);
-      const refreshToken = response?.data?.data?.tokens?.refresh_token;
-      const accessToken = response?.data?.data?.tokens?.access_token;
-      const userData = response?.data?.data?.data;
+      const response = await api.post("auth/login", newData);
 
-      setUser(userData, accessToken, refreshToken);
-      navigate("/");
+      const refreshToken = response?.data?.refreshToken;
+      const accessToken = response?.data?.accessToken;
 
-      toast.success("Tizimga muofaqiyatli kirdingiz");
-      reset();
-      setPhone("");
+      if (accessToken && refreshToken) {
+        setUser(accessToken, refreshToken);
+        toast.success("Tizimga muvaffaqiyatli kirdingiz");
+        navigate("/");
+        reset();
+        setPhone("");
+      } else {
+        toast.error("Tokenlar topilmadi");
+      }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      if (error?.response?.status === 401) {
+        toast.error("Telefon yoki parol noto'g'ri");
+      } else {
+        toast.error(error?.response?.data?.message || "Kirishda xatolik yuz berdi");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold flex justify-center text-gray-700 mb-10 " >
-          <img className="w-[130px] h-auto" src={logo} alt="aqvo logo" />
+        <h2 className="text-[30px] font-bold flex justify-center text-red-600 mb-10">
+          Sovchilar
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -80,14 +97,19 @@ const Login = () => {
                 <Input.Password {...field} placeholder="********" />
                 {errors.password && (
                   <p className="text-red-500 text-sm">
-                    {errors.password.message}
+                    {errors?.password?.message}
                   </p>
                 )}
               </div>
             )}
           />
 
-          <Button type="primary" htmlType="submit" className="w-full">
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="w-full"
+            loading={loading}
+          >
             Kirish
           </Button>
         </form>

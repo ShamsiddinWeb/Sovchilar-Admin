@@ -18,17 +18,17 @@ const SelectField = ({ control, name, label, placeholder, options, rules, error,
             placeholder={placeholder}
             allowClear
             status={error && "error"}
-            value={field.value || undefined}
+            value={field?.value || undefined}
           >
             {options?.map((option, index) => (
-              <Option key={index} value={option?.id}>
-                {option?.category}
+              <Option key={index} value={option?.value}>
+                {option?.name}
               </Option>
             ))}
           </Select>
         )}
       />
-      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+      {error && <p className="text-red-500 text-sm mt-1">{error?.message}</p>}
     </div>
   );
 };

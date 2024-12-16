@@ -4,14 +4,12 @@ import { persist } from 'zustand/middleware';
 export const useStore = create(
   persist(
     (set) => ({
-      user: null,
       accessToken: null,
       refreshToken: null,
 
       // User va tokenlarni saqlash
-      setUser: (userData, accessToken, refreshToken) =>
+      setUser: ( accessToken, refreshToken) =>
         set({
-          user: userData,
           accessToken: accessToken,
           refreshToken: refreshToken,
         }),
@@ -26,13 +24,12 @@ export const useStore = create(
       // Hammasini tozalash
       clearUser: () =>
         set({
-          user: null,
           accessToken: null,
           refreshToken: null,
         }),
     }),
     {
-      name: 'user-store-aqvo', // LocalStorage kaliti
+      name: 'user-store-sovchilar', // LocalStorage kaliti
       getStorage: () => localStorage, // LocalStorage orqali saqlash
       partialize: (state) => ({
         user: state.user,

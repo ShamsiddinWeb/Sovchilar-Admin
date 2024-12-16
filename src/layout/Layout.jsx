@@ -3,25 +3,18 @@ import {
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
-import { HiOutlineUsers } from "react-icons/hi2";
-import { TbDeviceDesktopAnalytics } from "react-icons/tb";
-import { BsShopWindow } from "react-icons/bs";
-import { AiOutlineProduct } from "react-icons/ai";
-import { FaBoxOpen } from "react-icons/fa";
-import { Button, Layout, Menu, Avatar, theme } from "antd";
+import { Button, Layout, Menu, theme } from "antd";
 import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
-import logo from "../assets/logo.png";
+// import logo from "../assets/logo.png";
 import { useStore } from "../store/store";
-import EditLoginPasswordModal from "./eddModal";
+import { FcCollaboration, FcPlus, FcSurvey } from "react-icons/fc";
 
 const { Header, Sider, Content } = Layout;
 
 const RootLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const { clearUser, user } = useStore();
+  const { clearUser } = useStore();
   const navigate = useNavigate();
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -32,28 +25,16 @@ const RootLayout = () => {
 
   const getSelectedKeys = () => {
     switch (location?.pathname) {
-      case "/analytics":
+      case "/":
         return ["1"];
-      case "/categories":
+      case `/lead/${id}`:
+        return ["1"];
+      case "/created":
         return ["2"];
-      case `/categories/${id}`:
+      case `/created/${id}`:
         return ["2"];
-      case `/categories/history/${id}`:
-        return ["2"];
-      case "/shops":
+      case "/married":
         return ["3"];
-      case `/shops/${id}`:
-        return ["3"];
-      case "/employees":
-        return ["4"];
-      case "/employees/attendance":
-        return ["4"];
-      case "/ready-product":
-        return ["5"];
-      case `/ready-product/${id}`:
-        return ["5"];
-      case `/ready-product/history/${id}`:
-        return ["5"];
       default:
         return ["1"];
     }
@@ -64,50 +45,35 @@ const RootLayout = () => {
     clearUser();
   };
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-  };
-
   return (
     <Layout className="h-screen">
       <Sider theme="light" trigger={null} collapsible collapsed={collapsed}>
         <Link to="/" className="flex justify-center py-5 pb-10">
-          <img className="w-3/5" src={logo} alt="aqvo logo" />
+          {/* <img className="w-3/5" src={logo} alt="aqvo logo" /> */}
+          <h3 className="text-[30px] text-red-600">
+            {collapsed ? "SN" : "Sovchilar.net"}
+          </h3>
         </Link>
         <Menu
           theme="light"
           mode="inline"
           selectedKeys={getSelectedKeys()}
-          className="text-[16px]"
+          className="text-[18px]"
           items={[
             {
               key: "1",
-              icon: <TbDeviceDesktopAnalytics style={{ fontSize: "20px" }} />,
-              label: <Link to="/">Statistika</Link>,
+              icon: <FcPlus style={{ fontSize: "20px" }} />,
+              label: <Link to="/">Yangilar</Link>,
             },
             {
               key: "2",
-              icon: <FaBoxOpen style={{ fontSize: "20px" }} />,
-              label: <Link to="/categories">Ombor</Link>,
+              icon: <FcSurvey style={{ fontSize: "20px" }} />,
+              label: <Link to="/created">Qo'shilganlar</Link>,
             },
             {
               key: "3",
-              icon: <BsShopWindow style={{ fontSize: "20px" }} />,
-              label: <Link to="/shops">Magazinlar</Link>,
-            },
-            {
-              key: "4",
-              icon: <HiOutlineUsers style={{ fontSize: "20px" }} />,
-              label: <Link to="/employees">Hodimlar</Link>,
-            },
-            {
-              key: "5",
-              icon: <AiOutlineProduct style={{ fontSize: "20px" }} />,
-              label: <Link to="/ready-product">Tayyor mahsulotlar</Link>,
+              icon: <FcCollaboration style={{ fontSize: "20px" }} />,
+              label: <Link to="/married">Oilali bo'lganlar</Link>,
             },
           ]}
         />
@@ -134,14 +100,6 @@ const RootLayout = () => {
             }}
           />
           <div className="flex items-center gap-5">
-            <div className="flex items-center gap-2">
-              <Avatar
-                style={{ backgroundColor: "primary", cursor: "pointer" }}
-                icon={<UserOutlined />}
-                onClick={showModal}
-              />
-              <span>Profil</span>
-            </div>
             <Button icon={<LogoutOutlined />} onClick={handleLogout}>
               Chiqish
             </Button>
@@ -161,12 +119,6 @@ const RootLayout = () => {
           <Outlet />
         </Content>
       </Layout>
-
-      <EditLoginPasswordModal
-        visible={isModalVisible}
-        onClose={handleCloseModal}
-        userId={user?.id}
-      />
     </Layout>
   );
 };
