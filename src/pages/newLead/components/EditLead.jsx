@@ -36,7 +36,7 @@ const EditLead = ({ onModalClose, editLeadData }) => {
 
   // Rasm yuklash funksiyasi
   const handleImageUpload = async (file) => {
-    const isValid = file.type === "image/png" || file.type === "image/jpeg";
+    const isValid = file.type === "image/png" || file.type === "image/jpeg" || file.type === "image/jpg";
 
     if (!isValid) {
       message.error("Faqat PNG yoki JPEG formatidagi fayllar qabul qilinadi!");
@@ -56,7 +56,9 @@ const EditLead = ({ onModalClose, editLeadData }) => {
         setImageUrl(uploadedUrl);
         message.success("Rasm muvaffaqiyatli yuklandi!");
       } else {
-        throw new Error("Javobdan rasm URL manzilini olishda xatolik yuz berdi.");
+        throw new Error(
+          "Javobdan rasm URL manzilini olishda xatolik yuz berdi."
+        );
       }
     } catch (error) {
       console.error("Rasm yuklashda xatolik:", error);
@@ -88,7 +90,9 @@ const EditLead = ({ onModalClose, editLeadData }) => {
       window.location.reload();
     } catch (error) {
       console.error("Ma'lumotni yangilashda xatolik:", error);
-      message.error("Ma'lumotni yangilashda xatolik yuz berdi. Qayta urinib ko'ring.");
+      message.error(
+        "Ma'lumotni yangilashda xatolik yuz berdi. Qayta urinib ko'ring."
+      );
     }
   };
 
@@ -110,7 +114,9 @@ const EditLead = ({ onModalClose, editLeadData }) => {
       <Form.Item
         name="lastName"
         label="Familiya"
-        rules={[{ required: true, message: "Iltimos, familiyangizni kiriting!" }]}
+        rules={[
+          { required: true, message: "Iltimos, familiyangizni kiriting!" },
+        ]}
       >
         <Input placeholder="Familiyangizni kiriting" />
       </Form.Item>
@@ -120,7 +126,11 @@ const EditLead = ({ onModalClose, editLeadData }) => {
         label="Yosh"
         rules={[
           { required: true, message: "Iltimos, yoshingizni kiriting!" },
-          { type: "number", min: 18, message: "Yosh kamida 18 bo'lishi kerak!" },
+          {
+            type: "number",
+            min: 18,
+            message: "Yosh kamida 18 bo'lishi kerak!",
+          },
         ]}
       >
         <InputNumber
@@ -140,7 +150,6 @@ const EditLead = ({ onModalClose, editLeadData }) => {
         <Select placeholder="Oilaviy holatni tanlang">
           <Select.Option value="SINGLE">Yolg'iz</Select.Option>
           <Select.Option value="DIVORCED">Ajrashgan</Select.Option>
-          <Select.Option value="WIDOWED">Beva</Select.Option>
           <Select.Option value="MARRIED_SECOND">
             Ikkinchi marta turmush qurgan
           </Select.Option>
@@ -150,7 +159,9 @@ const EditLead = ({ onModalClose, editLeadData }) => {
       <Form.Item
         name="description"
         label="Tavsif"
-        rules={[{ required: true, message: "Iltimos, o'zingizni tasvirlab bering!" }]}
+        rules={[
+          { required: true, message: "Iltimos, o'zingizni tasvirlab bering!" },
+        ]}
       >
         <Input.TextArea placeholder="O'zingizni tasvirlab bering" rows={4} />
       </Form.Item>
@@ -158,7 +169,9 @@ const EditLead = ({ onModalClose, editLeadData }) => {
       <Form.Item
         name="nationality"
         label="Millati"
-        rules={[{ required: true, message: "Iltimos, millatingizni kiriting!" }]}
+        rules={[
+          { required: true, message: "Iltimos, millatingizni kiriting!" },
+        ]}
       >
         <Select placeholder="Millatingizni tanlang">
           <Select.Option value="Uzbek">O'zbek</Select.Option>
@@ -194,31 +207,40 @@ const EditLead = ({ onModalClose, editLeadData }) => {
       <Form.Item
         name="qualification"
         label="Malaka"
-        rules={[
-          { required: true, message: "Iltimos, malakangizni kiriting!" },
-        ]}
+        rules={[{ required: true, message: "Iltimos, malakangizni kiriting!" }]}
       >
-        <Input placeholder="Malakangizni kiriting" />
+        <Select placeholder="Ma'lumotingizni tanlang">
+          <Select.Option value="middle">O'rta</Select.Option>
+          <Select.Option value="specialized">O'rta maxsu</Select.Option>
+          <Select.Option value="higher">Oliy</Select.Option>
+          <Select.Option value="master">Magistr</Select.Option>
+          <Select.Option value="doctorate">Doktorantura</Select.Option>
+        </Select>
       </Form.Item>
 
       <Form.Item
         name="address"
         label="Manzil"
-        rules={[{ required: true, message: "Iltimos, manzilingizni kiriting!" }]}
+        rules={[
+          { required: true, message: "Iltimos, manzilingizni kiriting!" },
+        ]}
       >
         <Select placeholder="Viloyatingizni tanlang">
           <Select.Option value="TOSHKENT">Toshkent</Select.Option>
-          <Select.Option value="ANDIJAN">Andijon</Select.Option>
-          <Select.Option value="BUKHARA">Buxoro</Select.Option>
-          <Select.Option value="FERGANA">Farg‘ona</Select.Option>
-          <Select.Option value="JIZZAK">Jizzax</Select.Option>
+          <Select.Option value="ANDIJON">Andijon</Select.Option>
+          <Select.Option value="BUXORO">Buxoro</Select.Option>
+          <Select.Option value="FARGONA">Farg‘ona</Select.Option>
+          <Select.Option value="JIZZAX">Jizzax</Select.Option>
           <Select.Option value="XORAZM">Xorazm</Select.Option>
           <Select.Option value="NAMANGAN">Namangan</Select.Option>
           <Select.Option value="NAVOIY">Navoiy</Select.Option>
           <Select.Option value="QASHQADARYO">Qashqadaryo</Select.Option>
-          <Select.Option value="SAMARKAND">Samarqand</Select.Option>
+          <Select.Option value="SAMARQAND">Samarqand</Select.Option>
           <Select.Option value="SIRDARYO">Sirdaryo</Select.Option>
-          <Select.Option value="SURXANDARYO">Surxandaryo</Select.Option>
+          <Select.Option value="SURXONDARYO">Surxandaryo</Select.Option>
+          <Select.Option value="QORAQALPOGISTON">
+            Qoraqalpog'iston
+          </Select.Option>
         </Select>
       </Form.Item>
 

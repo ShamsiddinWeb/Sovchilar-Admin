@@ -11,8 +11,8 @@ import { MdDoneOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const CreatedTable = ({ search, showModal, setEditCreatedData }) => {
-  const [data, setData] = useState([]); 
-  const [loading, setLoading] = useState(false); 
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
@@ -27,14 +27,17 @@ const CreatedTable = ({ search, showModal, setEditCreatedData }) => {
         `users-uz?status=ACTIVE&page=${params.page}&limit=${params.limit}`
       );
 
-      const fetchedData = response?.data?.data?.items || response?.data?.data || [];
+      const fetchedData = response?.data?.data?.items || [];
+      const totalItems = response?.data?.data?.total || 0;
+
       setData(fetchedData);
 
-      setPagination({
-        current: response?.data?.page || 1,
-        pageSize: response?.data?.limit || 10,
-        total: response?.data?.total || 0,
-      });
+      setPagination((prev) => ({
+        ...prev,
+        current: params.page || prev.current,
+        pageSize: params.limit || prev.pageSize,
+        total: totalItems,
+      }));
     } catch (error) {
       console.error("Xatolik:", error.response?.data || error.message);
       toast.error("Ma'lumotlarni yuklashda xatolik yuz berdi!");
@@ -43,14 +46,24 @@ const CreatedTable = ({ search, showModal, setEditCreatedData }) => {
     }
   };
 
-   useEffect(() => {
-     fetchData({ page: pagination.current, limit: pagination.pageSize });
-   }, [pagination.current, pagination.pageSize]);
+  useEffect(() => {
+    fetchData({ page: pagination.current, limit: pagination.pageSize });
+  }, [pagination.current, pagination.pageSize]);
+
+  useEffect(() => {
+    fetchData({ page: pagination.current, limit: pagination.pageSize });
+  }, [pagination.current, pagination.pageSize]);
 
   const handleTableChange = (pagination) => {
     setPagination({
       current: pagination.current,
       pageSize: pagination.pageSize,
+      total: pagination.total,
+    });
+
+    fetchData({
+      page: pagination.current,
+      limit: pagination.pageSize,
     });
   };
 
@@ -65,24 +78,30 @@ const CreatedTable = ({ search, showModal, setEditCreatedData }) => {
       toast.success("Ma'lumot muvaffaqiyatli o'chirildi!");
       fetchData({ page: pagination.current, limit: pagination.pageSize });
     } catch (error) {
-      console.error("O'chirishda xatolik:", error.response?.data || error.message);
+      console.error(
+        "O'chirishda xatolik:",
+        error.response?.data || error.message
+      );
       toast.error("Ma'lumotni o'chirishda xatolik yuz berdi!");
     }
   };
 
   const handleStatusToggle = async (id, currentStatus) => {
     const newStatus = currentStatus === "ACTIVE" ? "DONE" : "ACTIVE";
-  
+
     try {
       await api.put(`users-uz/${id}`, { status: newStatus });
       toast.success(`Holat muvaffaqiyatli ${newStatus} ga o'zgartirildi!`);
       fetchData({ page: pagination.current, limit: pagination.pageSize });
     } catch (error) {
-      console.error("Holatni o'zgartirishda xatolik:", error.response?.data || error.message);
+      console.error(
+        "Holatni o'zgartirishda xatolik:",
+        error.response?.data || error.message
+      );
       toast.error("Holatni o'zgartirishda xatolik yuz berdi!");
     }
   };
-  
+
   const filteredData = data.filter((item) =>
     item?.firstName?.toLowerCase().includes(search.toLowerCase())
   );
@@ -122,7 +141,9 @@ const CreatedTable = ({ search, showModal, setEditCreatedData }) => {
           >
             <Button
               type="link"
-              icon={<DeleteOutlined style={{ color: "red", fontSize: "20px" }} />}
+              icon={
+                <DeleteOutlined style={{ color: "red", fontSize: "20px" }} />
+              }
             />
           </Popconfirm>
           <Popconfirm
@@ -133,17 +154,16 @@ const CreatedTable = ({ search, showModal, setEditCreatedData }) => {
           >
             <Button
               type="link"
-              icon={<MdDoneOutline style={{ color: "blue", fontSize: "20px" }} />}
+              icon={
+                <MdDoneOutline style={{ color: "blue", fontSize: "20px" }} />
+              }
             />
           </Popconfirm>
-          
-          
         </div>
       ),
     },
-    
   ];
-  
+
   return (
     <Table
       bordered
@@ -154,6 +174,7 @@ const CreatedTable = ({ search, showModal, setEditCreatedData }) => {
         current: pagination.current,
         pageSize: pagination.pageSize,
         total: pagination.total,
+        showSizeChanger: true,
       }}
       onChange={handleTableChange}
       rowKey={(record) => record?.id}
@@ -161,7 +182,7 @@ const CreatedTable = ({ search, showModal, setEditCreatedData }) => {
         style: { cursor: "pointer" },
         onClick: (event) => {
           if (!event.target.closest("button")) {
-            navigate(`/users-uz/${record?.id}`); // Foydalanuvchi sahifasiga o'tish
+            navigate(`/users-uz/${record?.id}`); 
           }
         },
       })}

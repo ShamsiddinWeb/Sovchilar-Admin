@@ -70,7 +70,27 @@ const Single = () => {
         boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
       }}
     >
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
+           <a
+            class="inline-flex items-center mb-8 text-gray-600 hover:text-gray-800 transition-colors"
+            href="/"
+            data-discover="true"
+          >
+            <svg
+              class="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              ></path>
+            </svg>
+            Orqaga
+          </a>
+      <h2 className="text-2xl" style={{ textAlign: "center", marginBottom: "40px", }}>
         Foydalanuvchi Ma'lumotlari
       </h2>
       {loading ? (
@@ -81,7 +101,7 @@ const Single = () => {
       ) : (
         <Card bordered style={{ maxWidth: "800px", margin: "0 auto" }}>
           <Row gutter={[16, 16]} align="middle">
-            <Col xs={24} md={10}  style={{ textAlign: "center" }}>
+            <Col xs={24} md={10} style={{ textAlign: "center" }}>
               <Image
                 width={250}
                 height={250}
@@ -91,21 +111,22 @@ const Single = () => {
               />
             </Col>
 
-            
             <Col xs={24} md={12}>
               <p>
-                <strong>Ism va Familiya:</strong> {`${data?.firstName || "Noma'lum"} ${data?.lastName || ""}`}
+                <strong>Ism va Familiya:</strong>{" "}
+                {`${data?.firstName || "Noma'lum"} ${data?.lastName || ""}`}
               </p>
               <p>
                 <strong>Yosh:</strong> {data?.age || "Noma'lum"}
               </p>
-              
+
               <p>
                 <strong>Manzil:</strong> {data?.address || "Noma'lum"}
               </p>
-             
+
               <p>
-                <strong>Oilaviy Holati:</strong> {data?.maritalStatus || "Noma'lum"}
+                <strong>Oilaviy Holati:</strong>{" "}
+                {data?.maritalStatus || "Noma'lum"}
               </p>
               <p>
                 <strong>Kasbi:</strong> {data?.jobTitle || "Noma'lum"}

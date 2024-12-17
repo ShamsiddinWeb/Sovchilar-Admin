@@ -120,6 +120,7 @@ const Married = ({ showModal, setEditCreatedData }) => {
           current: pagination.current,
           pageSize: pagination.pageSize, // Har bir sahifada 10 ta yozuv
           total: pagination.total, // Umumiy yozuvlar soni
+          showSizeChanger: true,
           onChange: (page, pageSize) => {
             setPagination({ current: page, pageSize }); // Sahifani o'zgartirish
           },

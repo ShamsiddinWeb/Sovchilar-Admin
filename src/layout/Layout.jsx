@@ -5,11 +5,17 @@ import {
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
-import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 // import logo from "../assets/logo.png";
 import { useStore } from "../store/store";
 import { FcCollaboration, FcPlus, FcSurvey } from "react-icons/fc";
-
+import logo from "../assets/sv.png";
 const { Header, Sider, Content } = Layout;
 
 const RootLayout = () => {
@@ -51,7 +57,13 @@ const RootLayout = () => {
         <Link to="/" className="flex justify-center py-5 pb-10">
           {/* <img className="w-3/5" src={logo} alt="aqvo logo" /> */}
           <h3 className="text-[30px] text-red-600">
-            {collapsed ? "SN" : "Sovchilar.net"}
+            {collapsed ? (
+              <img src={logo} alt="" width={40} />
+            ) : (
+              <span class="font-['Tangerine'] bg-gradient-to-r from-yellow-500 via-pink-500 to-purple-500 text-transparent bg-clip-text transform transition-all duration-300 group-hover:from-yellow-400 group-hover:via-pink-400 group-hover:to-purple-400 drop-shadow-[0_2px_2px_rgba(0,0,0,0.3)]">
+                Sovchilar.net
+              </span>
+            )}
           </h3>
         </Link>
         <Menu

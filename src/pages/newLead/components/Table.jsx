@@ -28,15 +28,16 @@ const LeadTable = ({ search, showModal, setEditLeadData }) => {
       const response = await api.get(
         `users-uz?status=INACTIVE&page=${params.page}&limit=${params.limit}`
       );
-
-      const fetchedData =
-        response?.data?.data?.items || response?.data?.data || [];
+  
+      const fetchedData = response?.data?.data?.items || [];
+      const totalItems = response?.data?.data?.total || 0;
+  
       setData(fetchedData);
-
+  
       setPagination({
-        current: response?.data?.data?.page || 1,
-        pageSize: response?.data?.data?.limit || 10,
-        total: response?.data?.data?.total || 0,
+        current: params.page,
+        pageSize: params.limit,
+        total: totalItems,
       });
     } catch (error) {
       console.error("Xatolik:", error.response?.data || error.message);
@@ -45,6 +46,7 @@ const LeadTable = ({ search, showModal, setEditLeadData }) => {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchData({ page: pagination.current, limit: pagination.pageSize });
@@ -165,6 +167,7 @@ const LeadTable = ({ search, showModal, setEditLeadData }) => {
         current: pagination.current,
         pageSize: pagination.pageSize,
         total: pagination.total,
+        showSizeChanger: true,
       }}
       onChange={handleTableChange}
       rowKey={(record) => record?.id}

@@ -9,7 +9,7 @@ import {
   message,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import api from "../../../../axios"; 
+import api from "../../../../axios";
 
 const AddCreated = ({ onModalClose, onUserAdded }) => {
   const [form] = Form.useForm();
@@ -18,12 +18,13 @@ const AddCreated = ({ onModalClose, onUserAdded }) => {
 
   // Rasm yuklash funksiyasi
   const handleImageUpload = async (file) => {
-    const isValid = file.type === "image/png" || file.type === "image/jpeg";
+    const isValid = "*/*"
 
     if (!isValid) {
       message.error("Faqat PNG yoki JPEG formatidagi fayllar qabul qilinadi!");
       return Upload.LIST_IGNORE;
     }
+    
 
     const formData = new FormData();
     formData.append("file", file);
@@ -59,13 +60,12 @@ const AddCreated = ({ onModalClose, onUserAdded }) => {
       message.error("Iltimos, jo'natishdan oldin profil rasmini yuklang!");
       return;
     }
-  
+
     const formData = {
       ...values,
-      imageUrl, 
-      status: "ACTIVE", 
+      imageUrl,
+      status: "ACTIVE",
     };
-    
 
     try {
       const response = await api.post("users-uz", formData, {
@@ -74,25 +74,24 @@ const AddCreated = ({ onModalClose, onUserAdded }) => {
         },
       });
       message.success("Forma muvaffaqiyatli yuborildi!");
-      form.resetFields(); 
-      setImageUrl(""); 
-      if (onModalClose) onModalClose(); 
-  
+      form.resetFields();
+      setImageUrl("");
+      if (onModalClose) onModalClose();
+
       if (onUserAdded) {
-        onUserAdded(response.data); 
+        onUserAdded(response.data);
       }
-  
+
       console.log("Forma yuborish javobi:", response.data);
-      window.location.reload(); 
+      window.location.reload();
     } catch (error) {
       console.error("Forma yuborishda xatolik:", error);
       message.error(
         "Formani yuborishda xatolik yuz berdi. Qayta urinib ko'ring."
       );
     }
-    
   };
-  
+
   return (
     <Form
       form={form}
@@ -147,7 +146,9 @@ const AddCreated = ({ onModalClose, onUserAdded }) => {
         <Select placeholder="Oilaviy holatni tanlang">
           <Select.Option value="SINGLE">Yolg'iz</Select.Option>
           <Select.Option value="DIVORCED">Ajrashgan</Select.Option>
-          
+          <Select.Option value="MARRIED_SECOND">
+            Ikkinchi xotinlikka
+          </Select.Option>
         </Select>
       </Form.Item>
 
@@ -204,7 +205,13 @@ const AddCreated = ({ onModalClose, onUserAdded }) => {
         label="Malaka"
         rules={[{ required: true, message: "Iltimos, malakangizni kiriting!" }]}
       >
-        <Input placeholder="Malakangizni kiriting" />
+        <Select placeholder="Malumotingiz tanlang">
+          <Select.Option value="middle">O'rta</Select.Option>
+          <Select.Option value="specialized">O'rta maxsu</Select.Option>
+          <Select.Option value="higher">Oliy</Select.Option>
+          <Select.Option value="master">Magistr</Select.Option>
+          <Select.Option value="doctorate">Doktorantura</Select.Option>
+        </Select>
       </Form.Item>
 
       <Form.Item
@@ -227,7 +234,9 @@ const AddCreated = ({ onModalClose, onUserAdded }) => {
           <Select.Option value="SAMARQAND">Samarqand</Select.Option>
           <Select.Option value="SIRDARYO">Sirdaryo</Select.Option>
           <Select.Option value="SURXONDARYO">Surxondaryo</Select.Option>
-          <Select.Option value="QORAQALPOGISTON">Qoraqalpog‘iston</Select.Option>
+          <Select.Option value="QORAQALPOGISTON">
+            Qoraqalpog‘iston
+          </Select.Option>
         </Select>
       </Form.Item>
 
@@ -270,7 +279,7 @@ const AddCreated = ({ onModalClose, onUserAdded }) => {
         <Upload
           listType="picture-card"
           customRequest={({ file }) => handleImageUpload(file)}
-          accept=".png,.jpeg"
+          accept="image/*" // Barcha rasm formatlarini qabul qiladi
           maxCount={1}
           showUploadList={false}
         >
