@@ -45,7 +45,6 @@ const Created = () => {
             editLeadData={editCreatedData}
             onModalClose={handleCancel}
           />
-          
         ) : null}
       </ModalComponent>
 
